@@ -1,0 +1,18 @@
+[
+  {
+    "pipelineId": "mmyrk668",
+    "type": "full_pipeline",
+    "success": true,
+    "duration": 5584,
+    "steps": {
+      "crawl": true,
+      "sync": true,
+      "analyze": true,
+      "detectAlerts": true,
+      "generateReport": true,
+      "pushWecom": true
+    },
+    "alertCount": 0,
+    "time": "2026-03-20T10:36:07.825Z"
+  }
+]

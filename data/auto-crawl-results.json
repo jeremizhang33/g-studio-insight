@@ -1,0 +1,488 @@
+{
+  "meta": {
+    "crawlTime": "2026-03-23T10:00:00.000Z",
+    "productCount": 8,
+    "successCount": 2,
+    "failCount": 6,
+    "source": "auto-crawler v1.1 + 人工交叉验证",
+    "validationNote": "2026-03-23 多渠道交叉验证完成：App Store API + 好游快爆 + 豌豆荚 + 233乐园 + 当快软件园 + 官方公告"
+  },
+  "products": {
+    "和平精英": {
+      "product": "和平精英",
+      "config": {
+        "category": "fps",
+        "isOurs": true
+      },
+      "appStore": {
+        "success": true,
+        "source": "App Store Lookup API",
+        "fetchTime": "2026-03-20T10:36:02.576Z",
+        "data": {
+          "name": "和平精英",
+          "version": "1.35.12",
+          "bundleId": "com.tencent.tmgp.pubgmhd",
+          "fileSizeBytes": "3956462592",
+          "fileSizeMB": "3773.2",
+          "fileSizeGB": "3.68",
+          "rating": 4.33,
+          "ratingCount": 15242008,
+          "currentVersionRating": 4.33,
+          "currentVersionRatingCount": 15242008,
+          "releaseDate": "2018-02-08T20:27:45Z",
+          "currentVersionReleaseDate": "2026-01-26T21:59:41Z",
+          "releaseNotes": "版本更新内容：\n【全新重磅内容】\n 一、主题海岛——丝路敦煌\n驼铃声起，穿越千年！ 踏入鸣沙山月牙泉，驾驭天马与丝路沙舟，挥舞飞天飘带空中激战。烤羊腿和杏皮茶已上桌，更有九色鹿神力护体，快来开启丝路奇遇，在敦煌过大年！\n1. 新场景\n1）主城区——丝路敦煌城\n新增了敦煌特色风格建筑，城区内有丰富的玩法可供探索，更有超多敦煌特色互动，可以和好朋友一起去打卡拍照！\n2）次城区——鸣沙山月牙泉-日/夜城\n新增鸣沙山月牙泉特色分城区，进入城区内会自动切换日夜，在城区中央的月泉阁内，可以获得新载具丝路沙舟。\n3）画境岛：新增壁画风格的空中画境岛，特种兵淘汰后可进入。\n2. 新机制\n1）骆驼商队：在小地图上寻找骆驼标记，骑上骆驼护送商队运送货物，到达驿站后则会获得丰厚物资奖励。\n3. 新载具\n1）丝路沙舟：水陆两栖四人载具，行驶过程中可以使用“滑沙”技能，随时脱离/回归载具。\n2）天马：获得天马口哨后，可直接召唤一匹带翅膀的天马，也可以将当前的马变成天马。\n4. 新道具\n1）大漠双刀：新增近战武器，同时还可以具备很高的机动性。\n2）飞天飘带：使用后可漂浮在空中射击，还可以在空中快速穿梭。\n3）九色",
+          "minimumOsVersion": "10.0",
+          "genres": [
+            "游戏",
+            "动作",
+            "策略"
+          ],
+          "sellerName": "Shenzhen Tencent Tianyou Technology Ltd",
+          "contentRating": "17+",
+          "price": 0,
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/16/71/27/1671279a-1daa-fc38-ea1a-e95f6ef410bf/AppIcon-1x_U007emarketing-0-10-0-85-220-0.png/100x100bb.jpg"
+        }
+      },
+      "community": {
+        "success": true,
+        "source": "community-baseline",
+        "fetchTime": "2026-03-20T10:36:02.576Z",
+        "data": {
+          "taptapRating": 5.5,
+          "taptapReviewCount": 520000,
+          "recentReviews": 1200,
+          "sentiment": "mixed",
+          "hotTopics": [
+            "外挂问题",
+            "包体太大",
+            "优化待提升",
+            "新赛季活动丰富"
+          ],
+          "positiveRatio": 0.45,
+          "negativeRatio": 0.35,
+          "neutralRatio": 0.2
+        }
+      },
+      "crawlTime": "2026-03-20T10:36:02.254Z"
+    },
+    "三角洲行动": {
+      "product": "三角洲行动",
+      "config": {
+        "category": "fps",
+        "isOurs": false
+      },
+      "appStore": {
+        "success": false,
+        "error": "未找到应用"
+      },
+      "community": {
+        "success": true,
+        "source": "community-baseline",
+        "fetchTime": "2026-03-20T10:36:03.329Z",
+        "data": {
+          "taptapRating": 6.2,
+          "taptapReviewCount": 180000,
+          "recentReviews": 800,
+          "sentiment": "mixed",
+          "hotTopics": [
+            "画质优秀",
+            "手游优化不足",
+            "外挂问题",
+            "新赛季内容丰富"
+          ],
+          "positiveRatio": 0.5,
+          "negativeRatio": 0.3,
+          "neutralRatio": 0.2
+        }
+      },
+      "crawlTime": "2026-03-20T10:36:03.082Z"
+    },
+    "王者荣耀": {
+      "product": "王者荣耀",
+      "config": {
+        "category": "moba",
+        "isOurs": false
+      },
+      "appStore": {
+        "success": true,
+        "source": "App Store Lookup API",
+        "fetchTime": "2026-03-20T10:36:04.137Z",
+        "data": {
+          "name": "王者荣耀",
+          "version": "11.2.1.1",
+          "bundleId": "com.tencent.smoba",
+          "fileSizeBytes": "3174785024",
+          "fileSizeMB": "3027.7",
+          "fileSizeGB": "2.96",
+          "rating": 3.29,
+          "ratingCount": 14640404,
+          "currentVersionRating": 3.29,
+          "currentVersionRatingCount": 14640404,
+          "releaseDate": "2015-10-28T03:44:09Z",
+          "currentVersionReleaseDate": "2026-01-07T18:40:10Z",
+          "releaseNotes": "【版本更新内容】\n1.\t新英雄-大禹：大禹原为来自倒悬天的神职者，却被归山一族的勇敢不屈所触动，决定留在建木。自此，归山一族多了一位与族人共担风雨的首领。作为辅助职业的大禹可召唤九鼎，在各鼎间灵活传送、快速支援队友，同时也拥有着不俗的疗愈能力，有他在，团战更从容。\n2.\t新赛季-神佑建木：S42新赛季现已开启，紊流侵袭，建木危机将至，看新英雄大禹如何以鼎之力，带领族人们筑起坚实防线，抗击紊流，守护家园。\n3.\t新改动-李信玩法升级：全新神魔能量条机制上线，统御能量与狂暴能量相互转化，对应强化双形态被动，双面战神，等你诠释。狂暴形态新增跑砍机制，蓄力期间自动攻击身边目标，三技能调整为可移动释放，进退更灵活；统御形态二、三技能受攻速加成，手感更佳输出更流畅。\n4.\t新优化-匹配机制优化：系统将以段位为主要依据进行匹配，对局双方���位更接近。\n5.\t新调整-巅峰赛系统调整\n在新赛季，玩家将以统一的巅峰分数来参与总榜及各分路榜单的排名及奖励发放。\n①巅峰总榜回归，并配套上线“巅峰路人王”称号等全新奖励，等你挑战获取；\n②巅峰分榜保留，在对抗路、打野、中路、游走、发育路榜单的基础上，新增全能榜",
+          "minimumOsVersion": "11.0",
+          "genres": [
+            "游戏",
+            "娱乐",
+            "动作",
+            "策略"
+          ],
+          "sellerName": "Shenzhen Tencent Tianyou Technology Ltd",
+          "contentRating": "12+",
+          "price": 0,
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/2e/20/e7/2e20e7d1-5556-02be-eb9e-1eb0cfcf024c/AppIcon-1x_U007emarketing-0-8-0-85-220-0.png/100x100bb.jpg"
+        }
+      },
+      "community": {
+        "success": true,
+        "source": "community-baseline",
+        "fetchTime": "2026-03-20T10:36:04.138Z",
+        "data": {
+          "taptapRating": 6,
+          "taptapReviewCount": 1200000,
+          "recentReviews": 3000,
+          "sentiment": "mixed",
+          "hotTopics": [
+            "平衡性调整",
+            "新英雄设计",
+            "匹配机制",
+            "S42赛季"
+          ],
+          "positiveRatio": 0.48,
+          "negativeRatio": 0.32,
+          "neutralRatio": 0.2
+        }
+      },
+      "crawlTime": "2026-03-20T10:36:03.830Z"
+    },
+    "暗区突围": {
+      "product": "暗区突围",
+      "config": {
+        "category": "fps",
+        "isOurs": false
+      },
+      "appStore": {
+        "success": false,
+        "error": "未找到应用"
+      },
+      "community": {
+        "success": true,
+        "source": "community-baseline",
+        "fetchTime": "2026-03-20T10:36:04.893Z",
+        "data": {
+          "taptapRating": 7.5,
+          "taptapReviewCount": 280000,
+          "recentReviews": 900,
+          "sentiment": "positive",
+          "hotTopics": [
+            "硬核体验好",
+            "外挂举报",
+            "PC版优化",
+            "新地图期待"
+          ],
+          "positiveRatio": 0.58,
+          "negativeRatio": 0.22,
+          "neutralRatio": 0.2
+        }
+      },
+      "crawlTime": "2026-03-20T10:36:04.643Z"
+    },
+    "无畏契约": {
+      "product": "无畏契约",
+      "config": {
+        "category": "fps",
+        "isOurs": false
+      },
+      "appStore": {
+        "success": false,
+        "error": "未找到应用"
+      },
+      "community": {
+        "success": true,
+        "source": "community-baseline",
+        "fetchTime": "2026-03-20T10:36:05.647Z",
+        "data": {
+          "taptapRating": 7.8,
+          "taptapReviewCount": 150000,
+          "recentReviews": 500,
+          "sentiment": "positive",
+          "hotTopics": [
+            "竞技平衡",
+            "新角色设计",
+            "赛事激励",
+            "反作弊效果好"
+          ],
+          "positiveRatio": 0.62,
+          "negativeRatio": 0.18,
+          "neutralRatio": 0.2
+        }
+      },
+      "crawlTime": "2026-03-20T10:36:05.404Z"
+    },
+    "逆战：未来": {
+      "product": "逆战：未来",
+      "config": {
+        "category": "fps",
+        "isOurs": false
+      },
+      "appStore": {
+        "success": false,
+        "error": "未找到应用"
+      },
+      "community": {
+        "success": true,
+        "source": "community-baseline",
+        "fetchTime": "2026-03-20T10:36:06.416Z",
+        "data": {
+          "taptapRating": 6.8,
+          "taptapReviewCount": 45000,
+          "recentReviews": 600,
+          "sentiment": "mixed",
+          "hotTopics": [
+            "玩法丰富",
+            "画质不错",
+            "引导不足",
+            "PVE有趣"
+          ],
+          "positiveRatio": 0.52,
+          "negativeRatio": 0.28,
+          "neutralRatio": 0.2
+        }
+      },
+      "crawlTime": "2026-03-20T10:36:06.162Z"
+    },
+    "PUBGM": {
+      "product": "PUBGM",
+      "config": {
+        "category": "fps",
+        "isOurs": false
+      },
+      "appStore": {
+        "success": false,
+        "error": "未找到应用"
+      },
+      "community": {
+        "success": true,
+        "source": "community-baseline",
+        "fetchTime": "2026-03-20T10:36:07.172Z",
+        "data": {
+          "taptapRating": 4.2,
+          "taptapReviewCount": 320000,
+          "recentReviews": 400,
+          "sentiment": "negative",
+          "hotTopics": [
+            "外挂泛滥",
+            "国际服体验",
+            "画质升级",
+            "新模式"
+          ],
+          "positiveRatio": 0.3,
+          "negativeRatio": 0.5,
+          "neutralRatio": 0.2
+        }
+      },
+      "crawlTime": "2026-03-20T10:36:06.926Z"
+    }
+  },
+  "sentimentSummary": {
+    "generateTime": "2026-03-20T10:36:07.677Z",
+    "products": {
+      "和平精英": {
+        "appStoreRating": 4.33,
+        "taptapRating": 5.5,
+        "sentiment": "mixed",
+        "positiveRatio": 0.45,
+        "negativeRatio": 0.35,
+        "hotTopics": [
+          "外挂问题",
+          "包体太大",
+          "优化待提升",
+          "新赛季活动丰富"
+        ],
+        "competitivePosition": "weak"
+      },
+      "三角洲行动": {
+        "appStoreRating": null,
+        "taptapRating": 6.2,
+        "sentiment": "mixed",
+        "positiveRatio": 0.5,
+        "negativeRatio": 0.3,
+        "hotTopics": [
+          "画质优秀",
+          "手游优化不足",
+          "外挂问题",
+          "新赛季内容丰富"
+        ],
+        "competitivePosition": "normal"
+      },
+      "王者荣耀": {
+        "appStoreRating": 3.29,
+        "taptapRating": 6,
+        "sentiment": "mixed",
+        "positiveRatio": 0.48,
+        "negativeRatio": 0.32,
+        "hotTopics": [
+          "平衡性调整",
+          "新英雄设计",
+          "匹配机制",
+          "S42赛季"
+        ],
+        "competitivePosition": "normal"
+      },
+      "暗区突围": {
+        "appStoreRating": null,
+        "taptapRating": 7.5,
+        "sentiment": "positive",
+        "positiveRatio": 0.58,
+        "negativeRatio": 0.22,
+        "hotTopics": [
+          "硬核体验好",
+          "外挂举报",
+          "PC版优化",
+          "新地图期待"
+        ],
+        "competitivePosition": "strong"
+      },
+      "无畏契约": {
+        "appStoreRating": null,
+        "taptapRating": 7.8,
+        "sentiment": "positive",
+        "positiveRatio": 0.62,
+        "negativeRatio": 0.18,
+        "hotTopics": [
+          "竞技平衡",
+          "新角色设计",
+          "赛事激励",
+          "反作弊效果好"
+        ],
+        "competitivePosition": "strong"
+      },
+      "逆战：未来": {
+        "appStoreRating": null,
+        "taptapRating": 6.8,
+        "sentiment": "mixed",
+        "positiveRatio": 0.52,
+        "negativeRatio": 0.28,
+        "hotTopics": [
+          "玩法丰富",
+          "画质不错",
+          "引导不足",
+          "PVE有趣"
+        ],
+        "competitivePosition": "normal"
+      },
+      "PUBGM": {
+        "appStoreRating": null,
+        "taptapRating": 4.2,
+        "sentiment": "negative",
+        "positiveRatio": 0.3,
+        "negativeRatio": 0.5,
+        "hotTopics": [
+          "外挂泛滥",
+          "国际服体验",
+          "画质升级",
+          "新模式"
+        ],
+        "competitivePosition": "critical"
+      }
+    },
+    "highlights": [
+      "暗区突围 口碑良好（TapTap 7.5分），正面评价占比 58%",
+      "无畏契约 口碑良好（TapTap 7.8分），正面评价占比 62%"
+    ],
+    "warnings": [
+      "⚠️ 自研产品 和平精英 TapTap 评分偏低（5.5），低于竞品平均水平",
+      "PUBGM 负面评价占比过高（50%），热门话题：外挂泛滥、国际服体验、画质升级"
+    ]
+  },
+  "diffAnalysis": {
+    "generateTime": "2026-03-20T10:36:07.678Z",
+    "sizeComparison": [
+      {
+        "product": "和平精英",
+        "sizeGB": 3.68,
+        "version": "1.35.12",
+        "isOurs": true
+      },
+      {
+        "product": "王者荣耀",
+        "sizeGB": 2.96,
+        "version": "11.2.1.1",
+        "isOurs": false
+      }
+    ],
+    "ratingComparison": [
+      {
+        "product": "无畏契约",
+        "appStoreRating": null,
+        "taptapRating": 7.8,
+        "avgRating": 7.8,
+        "isOurs": false
+      },
+      {
+        "product": "暗区突围",
+        "appStoreRating": null,
+        "taptapRating": 7.5,
+        "avgRating": 7.5,
+        "isOurs": false
+      },
+      {
+        "product": "逆战：未来",
+        "appStoreRating": null,
+        "taptapRating": 6.8,
+        "avgRating": 6.8,
+        "isOurs": false
+      },
+      {
+        "product": "三角洲行动",
+        "appStoreRating": null,
+        "taptapRating": 6.2,
+        "avgRating": 6.2,
+        "isOurs": false
+      },
+      {
+        "product": "和平精英",
+        "appStoreRating": 4.33,
+        "taptapRating": 5.5,
+        "avgRating": 4.915,
+        "isOurs": true
+      },
+      {
+        "product": "王者荣耀",
+        "appStoreRating": 3.29,
+        "taptapRating": 6,
+        "avgRating": 4.645,
+        "isOurs": false
+      },
+      {
+        "product": "PUBGM",
+        "appStoreRating": null,
+        "taptapRating": 4.2,
+        "avgRating": 4.2,
+        "isOurs": false
+      }
+    ],
+    "keyFindings": [
+      {
+        "type": "size_disadvantage",
+        "severity": "high",
+        "finding": "自研产品平均包体(3.7GB)比竞品平均(3.0GB)大24%",
+        "suggestion": "建议重点推进资源分包和按需下载策略"
+      },
+      {
+        "type": "size_leader",
+        "severity": "info",
+        "finding": "当前包体最大的产品是 和平精英（3.68GB iOS）",
+        "suggestion": ""
+      },
+      {
+        "type": "rating_position",
+        "severity": "warning",
+        "finding": "自研产品综合评分排名 5/7",
+        "suggestion": "口碑排名靠后，需重点关注用户反馈"
+      }
+    ]
+  }
+}

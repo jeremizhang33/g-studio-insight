@@ -1,0 +1,11 @@
+{
+  "webhooks": [],
+  "enabled": false,
+  "reportType": "summary",
+  "schedule": "biweekly",
+  "mentionAll": false,
+  "mentionList": [],
+  "dashboardUrl": "",
+  "lastPush": null,
+  "pushCount": 0
+}

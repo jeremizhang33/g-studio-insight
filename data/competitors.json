@@ -1,0 +1,684 @@
+{
+  "meta": {
+    "lastUpdated": "2026-03-23T10:00:00.000Z",
+    "updateFrequency": "每赛季更新",
+    "version": "1.1.0",
+    "dataSource": "竞品版本更新监控表 + 多渠道交叉验证（App Store/TapTap/好游快爆/豌豆荚/官方公告等）"
+  },
+  "products": [
+    {
+      "id": "delta-force",
+      "name": "三角洲行动",
+      "color": "#4F46E5",
+      "isOurs": true,
+      "icon": "🎯"
+    },
+    {
+      "id": "honor-of-kings",
+      "name": "王者荣耀",
+      "color": "#F59E0B",
+      "icon": "👑"
+    },
+    {
+      "id": "arena-breakout",
+      "name": "暗区突围",
+      "color": "#10B981",
+      "icon": "🔫"
+    },
+    {
+      "id": "valorant",
+      "name": "无畏契约",
+      "color": "#EF4444",
+      "icon": "⚔️"
+    },
+    {
+      "id": "nz-future",
+      "name": "逆战：未来",
+      "color": "#8B5CF6",
+      "icon": "🚀"
+    },
+    {
+      "id": "pubgm",
+      "name": "PUBGM",
+      "color": "#F97316",
+      "icon": "🪖"
+    },
+    {
+      "id": "codm",
+      "name": "CODM",
+      "color": "#06B6D4",
+      "icon": "💥"
+    },
+    {
+      "id": "naruto",
+      "name": "火影忍者",
+      "color": "#EC4899",
+      "icon": "🍥"
+    }
+  ],
+  "packageSize": {
+    "summary": [
+      {
+        "product": "和平精英",
+        "version": "v1.35",
+        "versionName": "丝路贺新春",
+        "platform": "iOS",
+        "appStoreSize": "3.95G",
+        "autoUpdateSize": "10815M",
+        "totalDownload": "14.51G",
+        "systemUsage": "18.71G",
+        "prevVersionSize": "11.59GB",
+        "afterUpdateSize": "30.3GB"
+      },
+      {
+        "product": "和平精英",
+        "version": "v1.35",
+        "versionName": "丝路贺新春",
+        "platform": "Android",
+        "appStoreSize": "1985.1MB",
+        "autoUpdateSize": "9617M",
+        "totalDownload": "11.6G",
+        "systemUsage": "12.99G",
+        "prevVersionSize": "27.74GB",
+        "afterUpdateSize": "40.73GB"
+      },
+      {
+        "product": "三角洲行动",
+        "version": "1.201.37110",
+        "versionName": "蝶变时刻",
+        "platform": "iOS",
+        "appStoreSize": "3.51G",
+        "autoUpdateSize": "4389.2MB",
+        "totalDownload": "7.8GB",
+        "systemUsage": "9.64GB",
+        "prevVersionSize": "20.38GB",
+        "afterUpdateSize": "30.02GB"
+      },
+      {
+        "product": "三角洲行动",
+        "version": "1.201.37110",
+        "versionName": "蝶变时刻",
+        "platform": "Android",
+        "appStoreSize": "1569.8MB",
+        "autoUpdateSize": "6150.6MB",
+        "totalDownload": "7.54GB",
+        "systemUsage": "8.86GB",
+        "prevVersionSize": "21.76GB",
+        "afterUpdateSize": "30.62GB"
+      },
+      {
+        "product": "三角洲行动",
+        "version": "1.201.37110",
+        "versionName": "蝶变时刻",
+        "platform": "PC",
+        "appStoreSize": "473M",
+        "autoUpdateSize": "",
+        "totalDownload": "86.62G",
+        "systemUsage": ""
+      },
+      {
+        "product": "王者荣耀",
+        "version": "11.2.1.1",
+        "versionName": "S42赛季 神佑建木",
+        "platform": "iOS",
+        "appStoreSize": "3.16G",
+        "autoUpdateSize": "985M",
+        "totalDownload": "4.12G",
+        "systemUsage": "5.18G",
+        "prevVersionSize": "12.0G",
+        "afterUpdateSize": "18.42G"
+      },
+      {
+        "product": "王者荣耀",
+        "version": "11.2.1.1",
+        "versionName": "S42赛季 神佑建木",
+        "platform": "Android",
+        "appStoreSize": "1994.8M",
+        "autoUpdateSize": "1532M",
+        "totalDownload": "3.44G",
+        "systemUsage": "6.31G",
+        "prevVersionSize": "12.1G",
+        "afterUpdateSize": "18.88G"
+      },
+      {
+        "product": "暗区突围",
+        "version": "1.0.164",
+        "versionName": "S16 宿命之战",
+        "platform": "iOS",
+        "appStoreSize": "3.85GB",
+        "autoUpdateSize": "",
+        "totalDownload": "4.87GB",
+        "systemUsage": "17.39GB"
+      },
+      {
+        "product": "暗区突围",
+        "version": "1.0.164",
+        "versionName": "S16 宿命之战",
+        "platform": "Android",
+        "appStoreSize": "1745.4MB",
+        "autoUpdateSize": "",
+        "totalDownload": "5.93GB",
+        "systemUsage": "17.4GB"
+      },
+      {
+        "product": "暗区突围",
+        "version": "1.0.164.164",
+        "versionName": "S4 晨昏线",
+        "platform": "PC",
+        "appStoreSize": "34.5GB",
+        "autoUpdateSize": "169.7MB",
+        "totalDownload": "",
+        "systemUsage": "76.9GB",
+        "prevVersionSize": "63.4GB"
+      },
+      {
+        "product": "无畏契约",
+        "version": "v11.10",
+        "versionName": "2025赛季第六幕",
+        "platform": "PC",
+        "appStoreSize": "459M",
+        "autoUpdateSize": "",
+        "totalDownload": "28.0G",
+        "systemUsage": "28G"
+      },
+      {
+        "product": "逆战：未来",
+        "version": "1.0.30",
+        "versionName": "S1 鬼吹灯赛季",
+        "platform": "iOS",
+        "appStoreSize": "1542MB",
+        "autoUpdateSize": "85.77+4211.25MB",
+        "totalDownload": "5839.02M",
+        "systemUsage": "7.30G",
+        "prevVersionSize": "19831.4M",
+        "afterUpdateSize": "16.24G"
+      },
+      {
+        "product": "逆战：未来",
+        "version": "1.0.30",
+        "versionName": "S1 鬼吹灯赛季",
+        "platform": "Android",
+        "appStoreSize": "66.86+2921.97MB",
+        "autoUpdateSize": "",
+        "totalDownload": "6637.72M",
+        "systemUsage": "7.21G",
+        "prevVersionSize": "19711.4M",
+        "afterUpdateSize": "14.16G"
+      }
+    ],
+    "mobileComparison": {
+      "labels": [
+        "和平精英",
+        "三角洲行动",
+        "王者荣耀",
+        "暗区突围",
+        "逆战：未来"
+      ],
+      "iOS": {
+        "appStore": [
+          3.95,
+          3.51,
+          3.16,
+          3.85,
+          1.54
+        ],
+        "totalDownload": [
+          14.51,
+          7.8,
+          4.12,
+          4.87,
+          5.84
+        ],
+        "systemUsage": [
+          18.71,
+          9.64,
+          5.18,
+          17.39,
+          7.3
+        ],
+        "afterUpdate": [
+          30.3,
+          30.02,
+          18.42,
+          17.39,
+          16.24
+        ]
+      },
+      "Android": {
+        "appStore": [
+          1.99,
+          1.57,
+          1.99,
+          1.75,
+          2.99
+        ],
+        "totalDownload": [
+          11.6,
+          7.54,
+          3.44,
+          5.93,
+          6.64
+        ],
+        "systemUsage": [
+          12.99,
+          8.86,
+          6.31,
+          17.4,
+          7.21
+        ],
+        "afterUpdate": [
+          40.73,
+          30.62,
+          18.88,
+          17.4,
+          14.16
+        ]
+      }
+    },
+    "pcComparison": {
+      "labels": [
+        "三角洲行动",
+        "暗区突围(PC)",
+        "无畏契约",
+        "逆战(PC)"
+      ],
+      "totalDownload": [
+        86.62,
+        76.9,
+        28,
+        28.5
+      ],
+      "systemUsage": [
+        86.62,
+        76.9,
+        28,
+        28.5
+      ]
+    },
+    "resourceBreakdown": {
+      "三角洲行动-iOS": {
+        "地图资源扩展包": 9.5,
+        "干员资源扩展包": 0.04,
+        "商业化外观扩展包": 5.9,
+        "场景资源扩展包": 0.55,
+        "视频资源扩展包": 0.21,
+        "音频资源扩展包": 0.28,
+        "载具资源扩展包": 1.7,
+        "道具资源扩展包": 0.0005
+      },
+      "三角洲行动-Android": {
+        "地图资源扩展包": 10,
+        "干员资源扩展包": 0.05,
+        "商业化外观扩展包": 6.2,
+        "场景资源扩展包": 0.47,
+        "视频资源扩展包": 0.18,
+        "音频资源扩展包": 0.27,
+        "载具资源扩展包": 1.7,
+        "道具资源扩展包": 0.0003
+      },
+      "王者荣耀-iOS": {
+        "局内体验资源": 1.07,
+        "基础系统资源": 0.49,
+        "活动展示资源": 0.24,
+        "拓展系统资源": 1.23,
+        "稷下学院资源": 1.43,
+        "体验拓展资源": 0.86,
+        "皮肤展示资源": 4.86,
+        "玩法拓展资源": 1.64,
+        "10v10玩法资源": 0.16
+      },
+      "暗区突围-iOS": {
+        "通用资源包": 0.15,
+        "地图山谷": 0.58,
+        "地图北山": 0.41,
+        "地图前线要塞": 0.3,
+        "地图电视台": 0.24,
+        "地图庭院": 0.03,
+        "高清资源": 4.7,
+        "音频": 0.78
+      },
+      "逆战：未来-iOS": {
+        "僵尸猎场玩法资源包": 2.33,
+        "塔防玩法资源包": 2.25,
+        "时空追猎玩法资源包": 1.93,
+        "挑战副本玩法资源包": 1.43,
+        "机甲战玩法资源包": 0.41,
+        "PVP玩法资源包": 2.25
+      }
+    }
+  },
+  "versionHistory": {
+    "三角洲行动": [
+      {
+        "version": "1.201.37110",
+        "name": "蝶变时刻",
+        "date": "2026-01"
+      },
+      {
+        "version": "1.201.37108",
+        "name": "阿萨拉",
+        "date": "2025-11"
+      },
+      {
+        "version": "1.201.37105",
+        "name": "烈火冲天",
+        "date": "2025-08"
+      },
+      {
+        "version": "1.201.37103",
+        "name": "破壁",
+        "date": "2025-05"
+      },
+      {
+        "version": "1.201.37101",
+        "name": "黑夜之子",
+        "date": "2025-02"
+      },
+      {
+        "version": "1.201.37100",
+        "name": "焰火",
+        "date": "2024-11"
+      },
+      {
+        "version": "1.201.3799",
+        "name": "聚变",
+        "date": "2024-08"
+      },
+      {
+        "version": "1.201.3798",
+        "name": "游戏上线",
+        "date": "2024-08"
+      }
+    ],
+    "王者荣耀": [
+      {
+        "version": "11.2.1.1",
+        "name": "S42 神佑建木",
+        "date": "2026-01"
+      },
+      {
+        "version": "11.1.1.6",
+        "name": "S41 天元",
+        "date": "2025-10"
+      },
+      {
+        "version": "10.4.1.6",
+        "name": "S40 命若星火",
+        "date": "2025-07"
+      },
+      {
+        "version": "10.3.1.1",
+        "name": "S39 妙手空空",
+        "date": "2025-04"
+      },
+      {
+        "version": "10.2.1.6",
+        "name": "S38 穿透信念",
+        "date": "2025-01"
+      },
+      {
+        "version": "10.1.1.6",
+        "name": "S37 暗影狂舞",
+        "date": "2024-10"
+      },
+      {
+        "version": "9.4.1.6",
+        "name": "S36 元流之子",
+        "date": "2024-07"
+      },
+      {
+        "version": "9.3.1.6",
+        "name": "S35 命归缘起",
+        "date": "2024-04"
+      }
+    ],
+    "暗区突围": [
+      {
+        "version": "1.0.164",
+        "name": "S16 宿命之战",
+        "date": "2026-01"
+      },
+      {
+        "version": "1.0.163",
+        "name": "S15 无际脉冲",
+        "date": "2025-10"
+      },
+      {
+        "version": "1.0.162",
+        "name": "S14 使徒归来",
+        "date": "2025-07"
+      },
+      {
+        "version": "1.0.159",
+        "name": "S13 三周年",
+        "date": "2025-04"
+      },
+      {
+        "version": "1.0.158",
+        "name": "S12 无处可藏",
+        "date": "2025-01"
+      },
+      {
+        "version": "1.0.157",
+        "name": "S11 极境风雪",
+        "date": "2024-10"
+      }
+    ],
+    "无畏契约": [
+      {
+        "version": "v11.10",
+        "name": "V26赛季 时候正好",
+        "date": "2026-01"
+      },
+      {
+        "version": "v11.04",
+        "name": "2025赛季第六幕",
+        "date": "2025-11"
+      },
+      {
+        "version": "v11.03",
+        "name": "V25赛季第五幕",
+        "date": "2025-09"
+      },
+      {
+        "version": "v11.00",
+        "name": "V25赛季第四幕",
+        "date": "2025-07"
+      },
+      {
+        "version": "v10.08",
+        "name": "V25赛季第三幕",
+        "date": "2025-05"
+      },
+      {
+        "version": "v10.04",
+        "name": "V25赛季第二幕",
+        "date": "2025-03"
+      },
+      {
+        "version": "v10.00",
+        "name": "V25赛季第一幕",
+        "date": "2025-01"
+      }
+    ],
+    "逆战：未来": [
+      {
+        "version": "1.0.30",
+        "name": "S1 鬼吹灯赛季",
+        "date": "2026-02"
+      },
+      {
+        "version": "1.0.20",
+        "name": "S0 钢铁起源",
+        "date": "2026-01"
+      }
+    ]
+  },
+  "testProcess": {
+    "三角洲行动": {
+      "烈火冲天": {
+        "保密一测": {
+          "招募渠道": "先游招募",
+          "招募时间": "8月21日-8月26日",
+          "测试规模": "保密"
+        },
+        "万人二测": {
+          "招募渠道": "多平台招募",
+          "招募时间": "8月28日-9月3日",
+          "测试规模": "万人"
+        }
+      },
+      "阿萨拉": {
+        "保密一测": {
+          "招募渠道": "先游招募",
+          "招募时间": "10月17日-10月24日",
+          "测试时间": "10月28日-11月2日",
+          "测试规模": "保密"
+        },
+        "万人二测": {
+          "招募渠道": "多平台招募",
+          "招募时间": "10月20日-10月29日",
+          "测试时间": "11月3日-11月12日",
+          "测试规模": "万人"
+        }
+      },
+      "updateFlow": "下载流程分两档：1.基础更新包：可进入对局游玩，仅限基础地图 2.游戏内二次下载：下载资源后解锁其他地图及美术、商业化与道具资源"
+    },
+    "王者荣耀": {
+      "S41天元": {
+        "体验服时间": "9月17日-9月25日",
+        "说明": "主要为S41赛季内容，无特殊投放节奏说明"
+      },
+      "体验服链接": "https://pvp.qq.com/cp/a20161115tyf/index.shtml"
+    },
+    "逆战：未来": {
+      "S0钢铁起源": {
+        "说明": "全程保密，规模1-2W人。招募渠道先游独立招募。"
+      }
+    },
+    "PUBGM": {
+      "4.0幽灵奇妙夜": {
+        "体验服时间": "8月1日-8月21日",
+        "先游1轮": "7/30-8/6 新地图",
+        "先游2轮": "8/2-8/13 BR",
+        "先游3轮": "8/14-8/21 地铁 非对称（杀机like）"
+      }
+    },
+    "暗区突围": {
+      "S4晨昏线": {
+        "updateFlow": "搜索游戏进入下载，WeGame客户端直接点击下载更新"
+      }
+    }
+  },
+  "userDeviceStorage": {
+    "description": "APM非和平大盘用户剩余空间占比",
+    "Android": [
+      {
+        "range": "0-5GB",
+        "percentage": null
+      },
+      {
+        "range": "5-10GB",
+        "percentage": null
+      },
+      {
+        "range": "10-15GB",
+        "percentage": null
+      },
+      {
+        "range": "15-20GB",
+        "percentage": null
+      },
+      {
+        "range": "20-25GB",
+        "percentage": null
+      },
+      {
+        "range": "25-30GB",
+        "percentage": null
+      },
+      {
+        "range": "30+GB",
+        "percentage": null
+      }
+    ]
+  },
+  "latestVersions": [
+    {
+      "product": "三角洲行动",
+      "version": "1.201.37110",
+      "name": "蝶变时刻",
+      "highlights": [
+        "新赛季蝶变时刻开启"
+      ],
+      "updateDate": "2026-01"
+    },
+    {
+      "product": "王者荣耀",
+      "version": "11.2.1.1",
+      "name": "S42 神佑建木",
+      "highlights": [
+        "新英雄大禹",
+        "新赛季神佑建木",
+        "李信玩法升级",
+        "匹配机制优化",
+        "巅峰赛系统调整",
+        "战令系统焕新"
+      ],
+      "updateDate": "2026-01"
+    },
+    {
+      "product": "暗区突围",
+      "version": "1.0.164",
+      "name": "S16 宿命之战",
+      "highlights": [
+        "全新枪械配件试验品",
+        "重建山谷新秩序",
+        "新增黄金哑铃",
+        "全新玩法模式"
+      ],
+      "updateDate": "2026-01"
+    },
+    {
+      "product": "无畏契约",
+      "version": "v11.10",
+      "name": "V26 时候正好",
+      "highlights": [
+        "新模式爆能大乱斗",
+        "新武器追猎",
+        "英雄强度调整",
+        "回归微风岛屿",
+        "双界之争活动"
+      ],
+      "updateDate": "2026-01"
+    },
+    {
+      "product": "逆战：未来",
+      "version": "1.0.30",
+      "name": "S1 鬼吹灯赛季",
+      "highlights": [
+        "猎场新地图昆仑神宫/精绝古城",
+        "塔防新地图联盟大厦",
+        "时空追猎新地图",
+        "躲猫猫新模式",
+        "信誉分系统",
+        "万化系统",
+        "鬼吹灯IP联动"
+      ],
+      "updateDate": "2026-02"
+    },
+    {
+      "product": "PUBGM",
+      "version": "4.0.0",
+      "name": "幽灵奇妙夜",
+      "highlights": [
+        "幽灵玩法解锁超能力",
+        "迫击炮新武器",
+        "不对称竞技模式",
+        "WOW 1.0",
+        "超流暢画质全面开放"
+      ],
+      "updateDate": "2025-08"
+    }
+  ]
+}

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>竞品分析 Dashboard - 腾讯内网</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+</head>
+<body>
+
+<!-- iOA 验证已禁用 - 直接访问模式 -->
+<div class="ioa-login-overlay" id="ioaLoginOverlay" style="display:none"></div>
+
+<script>
+// iOA 验证已禁用，直接显示看板
+(function() {
+  document.getElementById('ioaLoginOverlay').style.display = 'none';
+  window.handleIOALogout = function() { location.reload(); };
+})();
+</script>
+
+<aside class="sidebar">
+  <div class="sidebar-header"><span class="header-icon">📊</span>竞品分析看板</div>
+  <nav class="sidebar-nav" id="sidebarNav">
+    <a class="nav-item active" data-section="overview">
+      <span class="nav-icon">📋</span>总览
+    </a>
+    <a class="nav-item" data-section="package-size">
+      <span class="nav-icon">📦</span>包体大小对比
+    </a>
+    <a class="nav-item" data-section="version-updates">
+      <span class="nav-icon">🔄</span>版本更新追踪
+    </a>
+    <a class="nav-item" data-section="test-process">
+      <span class="nav-icon">🧪</span>体验服测试流程
+    </a>
+    <a class="nav-item" data-section="resource-breakdown">
+      <span class="nav-icon">📂</span>资源拆包分析
+    </a>
+    <a class="nav-item" data-section="pk-test-reports">
+      <span class="nav-icon">📝</span>和平精英体验服报告
+    </a>
+    <a class="nav-item" data-section="guide">
+      <span class="nav-icon">📖</span>集成指南
+    </a>
+    <a class="nav-item" data-section="wecom-bot">
+      <span class="nav-icon">🤖</span>企微机器人
+    </a>
+    <a class="nav-item" data-section="agent-panel">
+      <span class="nav-icon">⚡</span>Agent 中心
+    </a>
+  </nav>
+  <div class="sidebar-footer"><span class="dot-live"></span><span id="updateTime">数据加载中</span></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="pageTitle">竞品分析总览</div>
+    <div class="topbar-actions">
+      <div class="date-filter" id="dateFilter" style="display:flex;align-items:center;gap:8px;margin-right:12px">
+        <label style="font-size:12px;color:#86909c">时间范围:</label>
+        <input type="date" id="dateStart" style="padding:4px 8px;border:1px solid #e5e6eb;border-radius:4px;font-size:12px">
+        <span style="color:#c9cdd4">至</span>
+        <input type="date" id="dateEnd" style="padding:4px 8px;border:1px solid #e5e6eb;border-radius:4px;font-size:12px">
+        <button class="btn btn-sm" id="btnApplyDate" style="padding:4px 12px;font-size:12px">应用</button>
+        <button class="btn btn-sm" id="btnResetDate" style="padding:4px 12px;font-size:12px;background:#f2f3f5;color:#4e5969">重置</button>
+      </div>
+      <div class="btn-group" id="platformSwitch">
+        <button class="btn active" data-p="iOS">iOS</button>
+        <button class="btn" data-p="Android">Android</button>
+        <button class="btn" data-p="PC">PC</button>
+      </div>
+      <button class="btn btn-primary" id="btnExport">导出报告</button>
+    </div>
+  </div>
+
+  <!-- 总览 -->
+  <div class="section active" id="sec-overview">
+    <div class="stats" id="overviewStats"></div>
+    <div class="card card-highlight">
+      <div class="card-hd"><h3>📊 和平精英竞品对比核心结论与建议</h3><span class="tag tag-orange">运营视角</span></div>
+      <div class="card-bd" id="analysisConclusion"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>最新版本动态</h3><span class="tag tag-green">实时</span></div>
+      <div class="card-bd" id="timeline"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">
+        <h3>移动端包体快速对比</h3>
+        <div class="btn-group" id="overviewChartSwitch">
+          <button class="btn active" data-t="appStore">应用商店包体</button>
+          <button class="btn" data-t="totalDownload">下载总大小</button>
+          <button class="btn" data-t="afterUpdate">更新后占用</button>
+        </div>
+      </div>
+      <div class="card-bd"><div class="chart-box" id="chartOverviewWrap"><canvas id="chartOverview"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- 包体大小 -->
+  <div class="section" id="sec-package-size">
+    <div class="card">
+      <div class="card-hd"><h3 id="mobileSizeTitle">iOS 端包体大小对比 (GB)</h3></div>
+      <div class="card-bd"><div class="chart-box chart-box-lg"><canvas id="chartMobile"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>PC 端包体大小对比 (GB)</h3></div>
+      <div class="card-bd"><div class="chart-box"><canvas id="chartPC"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>包体详细数据表</h3></div>
+      <div class="card-bd no-pad">
+        <div style="overflow-x:auto">
+          <table class="tbl">
+            <thead><tr><th>产品</th><th>版本</th><th>版本名</th><th>平台</th><th>应用商店包体</th><th>自动更新包体</th><th>下载总大小</th><th>系统显示占用</th><th>更新后占用</th></tr></thead>
+            <tbody id="pkgTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 版本更新 -->
+  <div class="section" id="sec-version-updates">
+    <div class="card">
+      <div class="card-hd"><h3>版本发布甘特图</h3><span class="tag tag-blue">全产品对比</span></div>
+      <div class="card-bd" id="verGanttWrap"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>各产品版本更新频率</h3></div>
+      <div class="card-bd"><div class="chart-box"><canvas id="chartVerFreq"></canvas></div></div>
+    </div>
+    <div class="tabs" id="verTabs"></div>
+    <div class="card">
+      <div class="card-hd"><h3>版本更新详情</h3></div>
+      <div class="card-bd" id="verList"></div>
+    </div>
+  </div>
+
+  <!-- 体验服测试 -->
+  <div class="section" id="sec-test-process">
+    <div class="card">
+      <div class="card-hd"><h3>各产品体验服/测试安排</h3><span class="tag tag-green">2026年最新</span></div>
+      <div class="card-bd"><div class="grid-2" id="testGrid"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>更新流程对比</h3></div>
+      <div class="card-bd"><div class="grid-2" id="flowGrid"></div></div>
+    </div>
+    <div class="source-footer" id="testSourceFooter"></div>
+  </div>
+
+  <!-- 资源拆包 -->
+  <div class="section" id="sec-resource-breakdown">
+    <div class="tabs" id="resTabs"></div>
+    <div class="card-row">
+      <div class="card">
+        <div class="card-hd"><h3>资源构成占比</h3></div>
+        <div class="card-bd"><div class="chart-box"><canvas id="chartPie"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><h3>资源大小详情</h3></div>
+        <div class="card-bd"><div class="chart-box"><canvas id="chartResBar"></canvas></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>资源拆包数据表</h3></div>
+      <div class="card-bd no-pad">
+        <div style="overflow-x:auto">
+          <table class="tbl">
+            <thead><tr><th>产品/平台</th><th>资源类型</th><th>大小 (GB)</th><th>占比</th></tr></thead>
+            <tbody id="resTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="source-footer">
+      <strong>数据来源：</strong>资源拆包数据通过各应用商店下载后在设备端实际测量获取（iOS使用ASTC纹理格式，Android使用ETC2格式，因此同产品不同平台的资源大小存在差异）。
+      数据刷新周期：双周更新。如需紧急更新，请联系看板管理员。
+    </div>
+  </div>
+
+  <!-- 和平精英体验服报告 -->
+  <div class="section" id="sec-pk-test-reports">
+    <div class="tabs" id="pkReportTabs"></div>
+    <div id="pkReportOverview"></div>
+    <div class="card">
+      <div class="card-hd"><h3>玩法模块评分</h3><span class="tag tag-blue">详细数据</span></div>
+      <div class="card-bd" id="pkReportModules"></div>
+    </div>
+    <div class="card-row">
+      <div class="card">
+        <div class="card-hd"><h3>模块评分分布</h3></div>
+        <div class="card-bd"><div class="chart-box" id="pkChartWrap"><canvas id="chartPkModules"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><h3>版本满意度趋势</h3></div>
+        <div class="card-bd"><div class="chart-box" id="pkTrendWrap"><canvas id="chartPkTrend"></canvas></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>核心发现</h3><span class="tag tag-orange">重点关注</span></div>
+      <div class="card-bd" id="pkCoreFindings"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>玩家建议</h3><span class="tag tag-green">改进方向</span></div>
+      <div class="card-bd" id="pkPlayerSuggestions"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>原始报告文件索引</h3><span class="tag tag-purple">引用文件</span></div>
+      <div class="card-bd" id="pkFileIndex"></div>
+    </div>
+  </div>
+
+  <!-- 集成指南 -->
+  <div class="section" id="sec-guide">
+    <div class="card"><div class="card-hd"><h3>集成指南</h3></div>
+      <div class="card-bd" id="guideContent"></div>
+    </div>
+  </div>
+
+  <!-- 企业微信机器人配置 -->
+  <div class="section" id="sec-wecom-bot">
+    <div class="card">
+      <div class="card-hd"><h3>🤖 企业微信群机器人配置</h3><span class="tag tag-blue">Webhook 推送</span></div>
+      <div class="card-bd" id="wecomConfigPanel"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>📊 报告预览与手动推送</h3><span class="tag tag-green">即时操作</span></div>
+      <div class="card-bd" id="wecomReportPanel"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>📋 推送记录</h3></div>
+      <div class="card-bd" id="wecomPushLog"></div>
+    </div>
+  </div>
+
+  <!-- Agent 控制中心 -->
+  <div class="section" id="sec-agent-panel">
+    <div class="stats" id="agentStats"></div>
+    <div class="card">
+      <div class="card-hd"><h3>⚡ Agentic Engine 控制台</h3><span class="tag tag-purple">Autopilot</span></div>
+      <div class="card-bd" id="agentControlPanel"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>🔔 竞品变更预警</h3><span class="tag tag-red" id="agentAlertCount">0条</span></div>
+      <div class="card-bd" id="agentAlertPanel"></div>
+    </div>
+    <div class="card-row">
+      <div class="card">
+        <div class="card-hd"><h3>📡 采集数据概览</h3><span class="tag tag-blue">App Store + 社区</span></div>
+        <div class="card-bd" id="agentCrawlPanel"></div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><h3>🧠 情感分析 & 差异对比</h3><span class="tag tag-green">自动分析</span></div>
+        <div class="card-bd" id="agentAnalysisPanel"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>📋 执行日志</h3></div>
+      <div class="card-bd" id="agentLogPanel"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js?v=20260323164300"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{
+  "history": [
+    {
+      "date": "2026-03-12",
+      "timestamp": "2026-03-12T03:18:35.512Z",
+      "product": "王者荣耀",
+      "platform": "iOS",
+      "version": "11.2.1.1",
+      "fileSizeGB": "2.96",
+      "fileSizeMB": "3027.7",
+      "rating": 3.29,
+      "ratingCount": 14633561
+    },
+    {
+      "date": "2026-03-12",
+      "timestamp": "2026-03-12T03:18:31.716Z",
+      "product": "和平精英",
+      "platform": "iOS",
+      "version": "1.35.12",
+      "fileSizeGB": "3.68",
+      "fileSizeMB": "3773.2",
+      "rating": 4.33,
+      "ratingCount": 15237825
+    }
+  ],
+  "products": {
+    "和平精英": {
+      "iOS": [
+        {
+          "date": "2026-03-12",
+          "timestamp": "2026-03-12T03:18:31.716Z",
+          "product": "和平精英",
+          "platform": "iOS",
+          "version": "1.35.12",
+          "fileSizeGB": "3.68",
+          "fileSizeMB": "3773.2",
+          "rating": 4.33,
+          "ratingCount": 15237825
+        }
+      ]
+    },
+    "王者荣耀": {
+      "iOS": [
+        {
+          "date": "2026-03-12",
+          "timestamp": "2026-03-12T03:18:35.512Z",
+          "product": "王者荣耀",
+          "platform": "iOS",
+          "version": "11.2.1.1",
+          "fileSizeGB": "2.96",
+          "fileSizeMB": "3027.7",
+          "rating": 3.29,
+          "ratingCount": 14633561
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "name": "g-studio-insight",
+  "public": true,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "enabled": true,
+  "mode": "autopilot",
+  "schedule": "weekly",
+  "scheduleDay": 1,
+  "scheduleHour": 9,
+  "lastRun": "2026-03-20T10:36:07.824Z",
+  "nextRun": "2026-03-23T01:00:00.000Z",
+  "runCount": 1,
+  "steps": {
+    "crawl": {
+      "enabled": true,
+      "timeout": 60000,
+      "lastStatus": "success"
+    },
+    "analyze": {
+      "enabled": true,
+      "timeout": 30000,
+      "lastStatus": "success"
+    },
+    "detectAlerts": {
+      "enabled": true,
+      "timeout": 10000,
+      "lastStatus": null
+    },
+    "generateReport": {
+      "enabled": true,
+      "timeout": 30000,
+      "lastStatus": null
+    },
+    "pushWecom": {
+      "enabled": true,
+      "timeout": 30000,
+      "lastStatus": null
+    },
+    "pushAlerts": {
+      "enabled": true,
+      "timeout": 15000,
+      "lastStatus": null
+    }
+  },
+  "alertConfig": {
+    "enabled": true,
+    "versionUpdate": true,
+    "sizeChange": true,
+    "ratingDrop": true,
+    "sentimentShift": true,
+    "immediateAlert": true
+  },
+  "stats": {
+    "totalCrawls": 1,
+    "totalReports": 1,
+    "totalAlerts": 0,
+    "totalPushes": 1,
+    "lastError": null
+  }
+}
