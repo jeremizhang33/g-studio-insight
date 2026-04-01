@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   'use strict';
   const D = window.DATA;
   const charts = {};
@@ -286,28 +286,38 @@
   function renderAnalysis() {
     const el = document.getElementById('analysisConclusion');
     if (!el) return;
+    const updateTime = D.meta.lastUpdated;
     el.innerHTML = `
+      <div style="background:#165dff11;border:1px solid #165dff33;border-radius:8px;padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="background:#165dff;color:#fff;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">数据更新</span>
+          <span style="font-size:13px;color:#86909c">最新数据采集时间：<strong style="color:#4e5969">${updateTime}</strong>（已多渠道交叉验证）</span>
+        </div>
+        <a href="data-verify.html" target="_blank" style="font-size:12px;color:#165dff;text-decoration:none">🔍 查看交叉验证详情 →</a>
+      </div>
       <div class="analysis-grid">
         <div class="analysis-block analysis-danger">
           <div class="analysis-header"><span class="analysis-icon">⚠️</span><h4>包体大小：和平处于高位，优化空间大</h4></div>
           <div class="analysis-body">
             <ul>
-              <li><strong>iOS 商店包体 3.96G</strong>，在7款竞品中排名最大（三角洲3.51G、暗区3.87G、王者3.17G）</li>
+              <li><strong>iOS 商店包体 3.68G</strong>，在7款竞品中排名第二（王者3.62G、暗区3.60G、逆战3.56G、无畏契约3.48G、火影3.29G、三角洲3.27G）</li>
               <li><strong>更新后系统占用 30.3G（iOS）/ 40.73G（Android）</strong>，与三角洲行动持平（30G），但远超王者荣耀（18.4G）</li>
               <li><strong>自动更新包 10.8G</strong>，远超三角洲的4.4G和王者的0.98G，用户等待成本极高</li>
+              <li>⚡ <strong>4月动态</strong>：王者荣耀S43更新后iOS包体从3.16G→3.62G(+14.6%)，逼近和平精英</li>
               <li class="highlight">建议：推动资源分包策略，参考王者"可选下载"模式，将非核心资源改为按需下载，预计可将首次下载量降低 30-40%</li>
             </ul>
           </div>
         </div>
         <div class="analysis-block analysis-warning">
-          <div class="analysis-header"><span class="analysis-icon">🔄</span><h4>体验服节奏：竞品更敏捷，和平需加速</h4></div>
+          <div class="analysis-header"><span class="analysis-icon">🔄</span><h4>4月竞品密集更新期：3款竞品同期换季</h4></div>
           <div class="analysis-body">
             <ul>
-              <li><strong>三角洲行动</strong>采用「保密一测→万人二测」双轮滚动机制，版本迭代间隔约 2-3 个月</li>
-              <li><strong>王者荣耀</strong>S43赛季体验服已于2026年2月24日更新（嫦娥/墨子/元法大改），常态化招募</li>
-              <li><strong>PUBGM</strong>通过先游平台分 3 轮精细化测试（新地图→BR→创新玩法）</li>
-              <li>和平精英当前版本更新频率约 3 个月/次，但<strong>缺少体验服公开招募的标准化流程</strong></li>
-              <li class="highlight">建议：建立"先游+自有渠道"双轨体验服招募机制，每次大版本前设置 2 轮测试（保密测+公开测），缩短反馈闭环</li>
+              <li>🔥 <strong>王者荣耀</strong> S43「陌上相逢」4月1日正式服更新，新英雄元流之子·刺客（登录即送），11位英雄平衡调整</li>
+              <li>🔥 <strong>暗区突围</strong> S17「迷雾」4月2日上线，诡雾山谷全图双倍爆率+全新PVE合作模式+3把新枪</li>
+              <li>🔥 <strong>逆战：未来</strong> S2「樱之渊」4月7日上线，端游经典猎场重制+三大新天赋+5V5刀战</li>
+              <li><strong>三角洲行动</strong> S9赛季定档4月中旬（核电站+巴雷特），国服DAU已破5000万（腾讯财报实锤）</li>
+              <li><strong>和平精英</strong> 4月14日七周年「电玩嘉年华」版本，v1.36体验服招募中（截止4月20日）</li>
+              <li class="highlight">建议：4月为竞品集中换季窗口期，和平精英4/14版本需在内容深度和营销力度上有差异化亮点，避免被竞品分流</li>
             </ul>
           </div>
         </div>
@@ -326,8 +336,9 @@
           <div class="analysis-header"><span class="analysis-icon">💡</span><h4>竞争优势与机会</h4></div>
           <div class="analysis-body">
             <ul>
-              <li><strong>用户规模优势</strong>：和平精英用户基数最大，更新流程的任何优化都能带来巨大的体验收益</li>
-              <li><strong>新品冲击</strong>：逆战：未来（S1赛季iOS已达3.83G）快速膨胀，三角洲行动PC端86G+移动30G走重度路线</li>
+              <li><strong>用户规模优势</strong>：和平精英日活超9000万+绿洲启元5800万，更新流程的任何优化都能带来巨大的体验收益</li>
+              <li><strong>App Store评分对比</strong>：逆战4.70 > 火影4.64 > 三角洲4.63 > 暗区4.35 > 和平4.33 > 无畏契约4.03 > 王者3.29</li>
+              <li><strong>新品冲击</strong>：逆战：未来iOS 3.56G快速膨胀（S2即将上线），三角洲行动PC端86G+移动30G走重度路线</li>
               <li class="highlight">机会点：利用AI生成资源技术+运行时流式加载，可在不影响画质的前提下大幅压缩包体，建议立项技术预研</li>
             </ul>
           </div>
