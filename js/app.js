@@ -1113,7 +1113,7 @@ resourceBreakdown{} - 各产品资源拆包详情
               <select id="wcReportType" class="wc-select">
                 <option value="summary" ${config.reportType === 'summary' ? 'selected' : ''}>摘要报告（适合群推送）</option>
                 <option value="full" ${config.reportType === 'full' ? 'selected' : ''}>完整报告</option>
-                <option value="pk-report" ${config.reportType === 'pk-report' ? 'selected' : ''}>体验服专项报告</option>
+                <!-- 暂时隐藏 <option value="pk-report" ${config.reportType === 'pk-report' ? 'selected' : ''}>体验服专项报告</option> -->
               </select>
             </div>
           </div>
@@ -1229,7 +1229,7 @@ resourceBreakdown{} - 各产品资源拆包详情
         <div class="wc-report-type-selector">
           <button class="btn wc-report-btn active" data-type="summary">📋 摘要报告</button>
           <button class="btn wc-report-btn" data-type="full">📄 完整报告</button>
-          <button class="btn wc-report-btn" data-type="pk-report">📝 体验服专项</button>
+          <!-- 暂时隐藏 <button class="btn wc-report-btn" data-type="pk-report">📝 体验服专项</button> -->
         </div>
         <div class="wc-report-btns">
           <button class="btn" id="wcPreviewBtn">👁️ 预览报告</button>
