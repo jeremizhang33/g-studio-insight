@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诊断页面</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:#f7f8fa;padding:16px;font-size:14px;color:#333}
+h1{font-size:18px;margin-bottom:16px;color:#165dff}
+.card{background:#fff;border:1px solid #e5e6eb;border-radius:8px;padding:16px;margin-bottom:12px}
+.card h3{font-size:14px;margin-bottom:8px;color:#1d2129}
+.ok{color:#00b42a;font-weight:600}
+.fail{color:#f53f3f;font-weight:600}
+.warn{color:#ff7d00;font-weight:600}
+.item{padding:6px 0;border-bottom:1px solid #f2f3f5;font-size:13px;display:flex;justify-content:space-between}
+.item:last-child{border:none}
+.log{background:#1a1a2e;color:#e0e0f0;border-radius:8px;padding:12px;font-size:11px;line-height:1.8;max-height:300px;overflow-y:auto;font-family:monospace;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<h1>🔍 竞品看板 - 手机端诊断</h1>
+
+<div class="card">
+<h3>📱 设备信息</h3>
+<div id="deviceInfo"></div>
+</div>
+
+<div class="card">
+<h3>🌐 网络状态</h3>
+<div id="networkInfo"></div>
+</div>
+
+<div class="card">
+<h3>📦 资源加载测试</h3>
+<div id="resourceTest">测试中...</div>
+</div>
+
+<div class="card">
+<h3>⚡ API 测试</h3>
+<div id="apiTest">测试中...</div>
+</div>
+
+<div class="card">
+<h3>🧪 JS 兼容性测试</h3>
+<div id="jsTest"></div>
+</div>
+
+<div class="card">
+<h3>📋 详细日志</h3>
+<div class="log" id="logArea"></div>
+</div>
+
+<div class="card" style="text-align:center;margin-top:20px">
+<a href="/" style="color:#165dff;text-decoration:none;font-weight:600;font-size:16px">→ 尝试打开主页面 ←</a>
+</div>
+
+<script>
+var logs = [];
+function log(msg) {
+  var t = new Date().toLocaleTimeString();
+  logs.push('[' + t + '] ' + msg);
+  document.getElementById('logArea').textContent = logs.join('\n');
+}
+
+// 1. 设备信息
+(function() {
+  var info = '';
+  info += '<div class="item"><span>UserAgent</span></div>';
+  info += '<div style="font-size:11px;color:#86909c;padding:4px 0 8px;word-break:break-all">' + navigator.userAgent + '</div>';
+  info += '<div class="item"><span>屏幕</span><span>' + screen.width + 'x' + screen.height + ' (DPR: ' + window.devicePixelRatio + ')</span></div>';
+  info += '<div class="item"><span>视口</span><span>' + window.innerWidth + 'x' + window.innerHeight + '</span></div>';
+  info += '<div class="item"><span>语言</span><span>' + navigator.language + '</span></div>';
+  info += '<div class="item"><span>平台</span><span>' + navigator.platform + '</span></div>';
+  info += '<div class="item"><span>Cookie启用</span><span>' + (navigator.cookieEnabled ? '✅ 是' : '❌ 否') + '</span></div>';
+  document.getElementById('deviceInfo').innerHTML = info;
+  log('设备: ' + navigator.userAgent.substring(0, 80));
+})();
+
+// 2. 网络状态
+(function() {
+  var info = '';
+  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (conn) {
+    info += '<div class="item"><span>网络类型</span><span>' + (conn.effectiveType || '未知') + '</span></div>';
+    info += '<div class="item"><span>下行速度</span><span>' + (conn.downlink || '未知') + ' Mbps</span></div>';
+    info += '<div class="item"><span>RTT</span><span>' + (conn.rtt || '未知') + ' ms</span></div>';
+    info += '<div class="item"><span>节省流量</span><span>' + (conn.saveData ? '⚠️ 是' : '否') + '</span></div>';
+  } else {
+    info += '<div class="item"><span>Network API</span><span class="warn">不支持</span></div>';
+  }
+  info += '<div class="item"><span>在线状态</span><span>' + (navigator.onLine ? '<span class="ok">在线</span>' : '<span class="fail">离线</span>') + '</span></div>';
+  document.getElementById('networkInfo').innerHTML = info;
+  log('网络: ' + (navigator.onLine ? '在线' : '离线'));
+})();
+
+// 3. 资源加载测试
+(function() {
+  var resources = [
+    { name: 'CSS (style.css)', url: '/css/style.css' },
+    { name: 'Chart.js (200KB)', url: '/js/chart.umd.min.js' },
+    { name: 'ChartJS Plugin', url: '/js/chartjs-plugin-datalabels.min.js' },
+    { name: 'Data.js', url: '/js/data.js' },
+    { name: 'App.js (90KB)', url: '/js/app.js?v=20260323164300' }
+  ];
+  
+  var results = [];
+  var done = 0;
+  
+  resources.forEach(function(res, i) {
+    var start = Date.now();
+    fetch(res.url, { cache: 'no-store' })
+      .then(function(r) {
+        var elapsed = Date.now() - start;
+        var sizeKB = r.headers.get('content-length') ? Math.round(parseInt(r.headers.get('content-length')) / 1024) : '?';
+        if (r.ok) {
+          results[i] = '<div class="item"><span>' + res.name + '</span><span class="ok">✅ ' + r.status + ' (' + elapsed + 'ms, ' + sizeKB + 'KB)</span></div>';
+          log('✅ ' + res.name + ' → ' + r.status + ' (' + elapsed + 'ms)');
+        } else {
+          results[i] = '<div class="item"><span>' + res.name + '</span><span class="fail">❌ HTTP ' + r.status + ' (' + elapsed + 'ms)</span></div>';
+          log('❌ ' + res.name + ' → HTTP ' + r.status);
+        }
+        done++;
+        if (done === resources.length) {
+          document.getElementById('resourceTest').innerHTML = results.join('');
+        }
+      })
+      .catch(function(err) {
+        var elapsed = Date.now() - start;
+        results[i] = '<div class="item"><span>' + res.name + '</span><span class="fail">❌ ' + err.message + ' (' + elapsed + 'ms)</span></div>';
+        log('❌ ' + res.name + ' → ' + err.message);
+        done++;
+        if (done === resources.length) {
+          document.getElementById('resourceTest').innerHTML = results.join('');
+        }
+      });
+  });
+})();
+
+// 4. API 测试
+(function() {
+  var apis = [
+    { name: '/api/data/meta', url: '/api/data/meta' },
+    { name: '/api/data/history', url: '/api/data/history' }
+  ];
+  
+  var results = [];
+  var done = 0;
+  
+  apis.forEach(function(api, i) {
+    var start = Date.now();
+    fetch(api.url, { cache: 'no-store' })
+      .then(function(r) {
+        var elapsed = Date.now() - start;
+        if (r.ok) {
+          return r.text().then(function(text) {
+            try {
+              JSON.parse(text);
+              results[i] = '<div class="item"><span>' + api.name + '</span><span class="ok">✅ JSON OK (' + elapsed + 'ms)</span></div>';
+              log('✅ API ' + api.name + ' → JSON OK (' + elapsed + 'ms)');
+            } catch(e) {
+              results[i] = '<div class="item"><span>' + api.name + '</span><span class="warn">⚠️ 非JSON (' + elapsed + 'ms)</span></div>';
+              log('⚠️ API ' + api.name + ' → 非JSON响应');
+            }
+            done++;
+            if (done === apis.length) document.getElementById('apiTest').innerHTML = results.join('');
+          });
+        } else {
+          results[i] = '<div class="item"><span>' + api.name + '</span><span class="fail">❌ HTTP ' + r.status + ' (' + elapsed + 'ms)</span></div>';
+          log('❌ API ' + api.name + ' → HTTP ' + r.status);
+          done++;
+          if (done === apis.length) document.getElementById('apiTest').innerHTML = results.join('');
+        }
+      })
+      .catch(function(err) {
+        results[i] = '<div class="item"><span>' + api.name + '</span><span class="fail">❌ ' + err.message + '</span></div>';
+        log('❌ API ' + api.name + ' → ' + err.message);
+        done++;
+        if (done === apis.length) document.getElementById('apiTest').innerHTML = results.join('');
+      });
+  });
+})();
+
+// 5. JS 兼容性测试
+(function() {
+  var tests = [];
+  
+  // Optional Chaining
+  try {
+    var obj = { a: { b: 1 } };
+    eval('obj?.a?.b');
+    tests.push('<div class="item"><span>Optional Chaining (?.)</span><span class="ok">✅ 支持</span></div>');
+  } catch(e) {
+    tests.push('<div class="item"><span>Optional Chaining (?.)</span><span class="fail">❌ 不支持</span></div>');
+    log('❌ 不支持 Optional Chaining');
+  }
+  
+  // Arrow Functions
+  try {
+    eval('(() => 1)()');
+    tests.push('<div class="item"><span>Arrow Functions</span><span class="ok">✅ 支持</span></div>');
+  } catch(e) {
+    tests.push('<div class="item"><span>Arrow Functions</span><span class="fail">❌ 不支持</span></div>');
+    log('❌ 不支持 Arrow Functions');
+  }
+  
+  // Template Literals
+  try {
+    eval('`test ${1}`');
+    tests.push('<div class="item"><span>Template Literals</span><span class="ok">✅ 支持</span></div>');
+  } catch(e) {
+    tests.push('<div class="item"><span>Template Literals</span><span class="fail">❌ 不支持</span></div>');
+    log('❌ 不支持 Template Literals');
+  }
+  
+  // Fetch API
+  tests.push('<div class="item"><span>Fetch API</span><span class="' + (window.fetch ? 'ok">✅ 支持' : 'fail">❌ 不支持') + '</span></div>');
+  
+  // CSS Variables
+  var cssVarSupport = window.CSS && CSS.supports && CSS.supports('color', 'var(--test)');
+  tests.push('<div class="item"><span>CSS Variables</span><span class="' + (cssVarSupport ? 'ok">✅ 支持' : 'warn">⚠️ 可能不支持') + '</span></div>');
+  
+  // Canvas
+  var canvas = document.createElement('canvas');
+  var canvasSupport = !!(canvas.getContext && canvas.getContext('2d'));
+  tests.push('<div class="item"><span>Canvas (Chart.js需要)</span><span class="' + (canvasSupport ? 'ok">✅ 支持' : 'fail">❌ 不支持') + '</span></div>');
+  
+  // CSS Grid
+  var gridSupport = window.CSS && CSS.supports && CSS.supports('display', 'grid');
+  tests.push('<div class="item"><span>CSS Grid</span><span class="' + (gridSupport ? 'ok">✅ 支持' : 'warn">⚠️ 可能不支持') + '</span></div>');
+  
+  document.getElementById('jsTest').innerHTML = tests.join('');
+  log('JS兼容性测试完成');
+})();
+
+log('诊断完成 ✓');
+</script>
+</body>
+</html>
