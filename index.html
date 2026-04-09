@@ -10,6 +10,10 @@
 </head>
 <body>
 
+<!-- 移动端汉堡菜单按钮 -->
+<button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="打开菜单">☰</button>
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
 <!-- iOA 验证已禁用 - 直接访问模式 -->
 <div class="ioa-login-overlay" id="ioaLoginOverlay" style="display:none"></div>
 
@@ -272,5 +276,44 @@
 
 <script src="js/data.js"></script>
 <script src="js/app.js?v=20260323164300"></script>
+<script>
+// 移动端汉堡菜单逻辑
+(function() {
+  const menuBtn = document.getElementById('mobileMenuBtn');
+  const overlay = document.getElementById('mobileOverlay');
+  const sidebar = document.querySelector('.sidebar');
+  
+  function openMenu() {
+    sidebar.classList.add('mobile-open');
+    overlay.classList.add('active');
+    menuBtn.textContent = '✕';
+  }
+  
+  function closeMenu() {
+    sidebar.classList.remove('mobile-open');
+    overlay.classList.remove('active');
+    menuBtn.textContent = '☰';
+  }
+  
+  menuBtn.addEventListener('click', function() {
+    if (sidebar.classList.contains('mobile-open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+  
+  overlay.addEventListener('click', closeMenu);
+  
+  // 点击导航项后自动关闭菜单
+  document.querySelectorAll('.nav-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      if (window.innerWidth <= 768) {
+        closeMenu();
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>
