@@ -2,6 +2,18 @@
   "version": 2,
   "name": "g-studio-insight",
   "public": true,
+  "builds": [
+    { "src": "api/**/*.js", "use": "@vercel/node" },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "data-verify.html", "use": "@vercel/static" },
+    { "src": "css/**", "use": "@vercel/static" },
+    { "src": "js/**", "use": "@vercel/static" },
+    { "src": "data/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/api/(.*)", "dest": "/api/$1" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -11,9 +23,5 @@
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
       ]
     }
-  ],
-  "rewrites": [
-    { "source": "/api/agent/alerts/clear", "destination": "/api/agent/alerts/clear" },
-    { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
 }
