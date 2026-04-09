@@ -1,12 +1,4 @@
 {
-  "version": 2,
-  "name": "g-studio-insight",
-  "public": true,
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "@vercel/node@3"
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
