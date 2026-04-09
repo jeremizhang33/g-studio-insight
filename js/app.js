@@ -1785,12 +1785,14 @@ resourceBreakdown{} - 各产品资源拆包详情
     }
 
     fetch('/api/data/history', { cache: 'no-store' })
-      .then(r => r.json())
+      .then(r => r.ok ? r.json() : null)
       .then(data => {
-        historyData = data;
-        console.log('[时间筛选] 已加载历史数据');
+        if (data) {
+          historyData = data;
+          console.log('[时间筛选] 已加载历史数据');
+        }
       })
-      .catch(err => console.log('[时间筛选] 加载历史数据失败:', err.message));
+      .catch(err => console.log('[时间筛选] 加载历史数据跳过:', err.message));
   }
 
   function applyDateFilter() {
@@ -1909,4 +1911,4 @@ resourceBreakdown{} - 各产品资源拆包详情
     };
   }
 
-})();
+})();
