@@ -1,11 +1,11 @@
-﻿/**
+/****
  * 竞品数据 - 直接内嵌以兼�?file:// 协议
  * 数据来源：版本更新监�?xlsx / 主要竞品版本更新�?xlsx
  * 更新方法：编辑本文件�?DATA 对象的对应字�?
  */
 window.DATA = {
   meta: {
-    lastUpdated: "2026-04-13",
+    lastUpdated: "2026-04-14",
     source: "外网实时采集（App Store Lookup API/TapTap/好游快爆/豌豆�?233乐园/各大应用商店/官方公告等公开渠道�?,
     refreshCycle: "双周更新",
     nextRefresh: "2026-04-24",
@@ -16,10 +16,10 @@ window.DATA = {
   packageSummary: [
       {
           "product": "和平精英",
-          "version": "v1.35",
+          "version": "v1.36",
           "name": "丝路贺新�?,
           "platform": "iOS",
-          "appStore": "3.95G",
+          "appStore": "3.69G",
           "autoUpdate": "10815M",
           "totalDL": "14.51G",
           "sysUsage": "18.71G",
@@ -28,7 +28,7 @@ window.DATA = {
       },
       {
           "product": "和平精英",
-          "version": "v1.35",
+          "version": "v1.36",
           "name": "丝路贺新�?,
           "platform": "Android",
           "appStore": "1985.1MB",
@@ -217,7 +217,7 @@ window.DATA = {
       { ver:"9.3.1.6", name:"S35 命归缘起", date:"2024-04" }
     ],
     "暗区突围": [
-      { ver:"1.0.165", name:"S17 迷雾", date:"2026-04" },`n      { ver:"1.0.164", name:"S16 宿命之战", date:"2026-01" },
+      { ver:"1.0.165", name:"S17 迷雾", date:"2026-04" },`n      { ver:"1.0.165", name:"S16 宿命之战", date:"2026-01" },
       { ver:"1.0.163", name:"S15 无际脉冲", date:"2025-10" },
       { ver:"1.0.162", name:"S14 使徒归来", date:"2025-07" },
       { ver:"1.0.159", name:"S13 三周�?, date:"2025-04" },
@@ -248,9 +248,9 @@ window.DATA = {
 
   // ===== 最新版本动�?=====
   latestVersions: [
-    { product:"和平精英", ver:"v1.35.12", name:"丝路贺新春�?周年电玩嘉年华预�?, date:"2026-04", color:"#faad14",
-      tags:["7周年「电玩嘉年华�?�?4日上�?,"4�?日热更公�?,"体验服v1.36.11招募�?截止4�?0�?","App Store评分4.33(1525万条)","TapTap 5.5�?,"iOS包体3.68GB"],
-      verified: true, verifySource: "App Store Lookup API/好游快爆/233乐园", verifyNote: "版本号v1.35.12确认，iOS 3.68GB，Android�?.94GB�?�?4日将更新7周年版本" },
+    { product:"和平精英", ver:"v1.36.11", name:"丝路贺新春�?周年电玩嘉年华预�?, date:"2026-04", color:"#faad14",
+      tags:["7周年「电玩嘉年华�?�?4日上�?,"4�?日热更公�?,"体验服v1.36.11招募�?截止4�?0�?","App Store评分4.33(1525万条)","TapTap 5.5�?,"iOS包体3.69GB"],
+      verified: true, verifySource: "App Store Lookup API/好游快爆/233乐园", verifyNote: "版本号v1.36.11确认，iOS 3.69GB，Android�?.94GB�?�?4日将更新7周年版本" },
     { product:"王者荣耀", ver:"11.3.1.1", name:"S43 陌上相�?, date:"2026-04", color:"#ff7d00",
       tags:["S43赛季4�?日正式上�?,"新英雄元流之子·刺�?登录即�?","新召唤师技能汇流为�?,"小屋农场新玩�?,"11位英雄平衡调�?,"王者荣耀世界4�?0日联�?,"App Store评分3.28","包体暴增681MB�?.62GB"],
       verified: true, verifySource: "App Store Lookup API/17173/游民星空/高手�?, verifyNote: "版本11.3.1.1确认(4�?日更�?，iOS 3.62GB(较上版增�?81MB)，Android�?.71GB" },
@@ -269,7 +269,7 @@ window.DATA = {
     { product:"CODM", ver:"1.0.54", name:"S2 Lunar Charge", date:"2026-03", color:"#06b6d4",
       tags:["DMZ Recon更新","Plunder大逃杀限时模式","新神话武�?,"Serpent Island新地�?,"春节/情人节活�?],
       verified: false, verifySource: "缺少国内渠道数据", verifyNote: "CODM国内已停服，数据来自海外渠道，版本号待进一步确�? },
-    { product:"暗区突围", ver:"1.0.164", name:"S16 宿命之战", date:"2026-03", color:"#00b42a",
+    { product:"暗区突围", ver:"1.0.165", name:"S16 宿命之战", date:"2026-03", color:"#00b42a",
       tags:["S16赛季持续�?,"TapTap评分6.8(27287人评�?","山谷新秩序扩�?7%","SCAR-HAMR新武�?,"实验品道�?,"MG3轻机枪返�?],
       verified: true, verifySource: "花瓣网采�?雷电模拟�?233乐园/松果软件�?, verifyNote: "版本1.0.164确认，Android�?.71GB，iOS�?.85GB" },
     { product:"PUBGM", ver:"4.2.0", name:"Primewood Genesis / 4.3预告", date:"2026-03", color:"#F97316",
