@@ -1,5 +1,6 @@
 ﻿(function () {
   'use strict';
+  if (!window.DATA) { window.DATA = { meta: {lastUpdated: '2026-04-17'}, packageSummary: [], latestVersions: [] }; }
   const D = window.DATA;
   const charts = {};
   let curSection = 'overview';
