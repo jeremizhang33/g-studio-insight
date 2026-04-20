@@ -8,5 +8,19 @@
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/api/data/meta", "destination": "/api/data/meta.js" },
+    { "source": "/api/data/history", "destination": "/api/data/history.js" },
+    { "source": "/api/wecom/config", "destination": "/api/wecom/config.js" },
+    { "source": "/api/wecom/test", "destination": "/api/wecom/test.js" },
+    { "source": "/api/wecom/push", "destination": "/api/wecom/push.js" },
+    { "source": "/api/report/generate", "destination": "/api/report/generate.js" },
+    { "source": "/api/agent/state", "destination": "/api/agent/state.js" },
+    { "source": "/api/agent/run", "destination": "/api/agent/run.js" },
+    { "source": "/api/agent/crawl", "destination": "/api/agent/crawl.js" },
+    { "source": "/api/agent/config", "destination": "/api/agent/config.js" },
+    { "source": "/api/agent/alerts/clear", "destination": "/api/agent/alerts/clear.js" },
+    { "source": "/api/agent/crawl-results", "destination": "/api/agent/crawl-results.js" }
   ]
 }
