@@ -1,15 +1,47 @@
 /****
+ * G-Studio Insight 竞品数据分析平台
+ * 整合版本：竞品数据 + G-Studio Insight 元数据
+ * 最后更新: 2026-04-17
+ */
+/****
  * 竞品数据 - 直接内嵌以兼�?file:// 协议
  * 数据来源：版本更新监�?xlsx / 主要竞品版本更新�?xlsx
  * 更新方法：编辑本文件�?DATA 对象的对应字�?
  */
 window.DATA = {
   meta: {
-    lastUpdated: "2026-04-14",
+    lastUpdated: "2026-04-17",
     source: "外网实时采集（App Store Lookup API/TapTap/好游快爆/豌豆�?233乐园/各大应用商店/官方公告等公开渠道�?,
     refreshCycle: "双周更新",
     nextRefresh: "2026-04-24",
-    dataValidation: "已与人工采集数据交叉比对验证�?026-04-10 10:38）——App Store评分、TapTap评分、版本号、包体大小均经多渠道交叉验证"
+    dataValidation: "已与人工采集数据交叉比对验证�?026-04-10 10:38）——App Store评分、TapTap评分、版本号、包体大小均经多渠道交叉验证",
+    gStudioInsight: {
+      version: "1.0.0",
+      project: "G-Studio Insight",
+      description: "智能数据分析平台",
+      dataSources: [
+        "用户行为数据",
+        "系统性能指标",
+        "业务运营数据"
+      ],
+      sampleData: {
+        users: {
+          total: 1500,
+          active: 850,
+          newToday: 23
+        },
+        performance: {
+          responseTime: 120,
+          uptime: 99.8,
+          errorRate: 0.2
+        },
+        analytics: {
+          reportsGenerated: 450,
+          insightsDiscovered: 89,
+          predictionsMade: 156
+        }
+      }
+    }
   },
 
   // ===== 包体大小汇总表（综合收集表维度�?=====
@@ -589,4 +621,4 @@ window.DATA = {
       ]
     }
   }
-};
+};
