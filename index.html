@@ -11,6 +11,24 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/chart.umd.min.js"></script>
   <script src="js/chartjs-plugin-datalabels.min.js"></script>
+  <script>
+  // 强制清除缓存加载
+  document.addEventListener('DOMContentLoaded', function() {
+    const scripts = document.querySelectorAll('script[src*="js/app"]');
+    let hasOldVersion = false;
+    scripts.forEach(s => {
+      if (s.src.includes('v=202603')) {
+        // 旧版本缓存，强制刷新
+        const url = s.src.split('?')[0];
+        s.src = url + '?v=' + Date.now();
+        hasOldVersion = true;
+      }
+    });
+    if (hasOldVersion) {
+      location.reload(true);
+    }
+  });
+  </script>
 </head>
 <body>
 
