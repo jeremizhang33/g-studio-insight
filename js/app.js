@@ -1,6 +1,5 @@
 ﻿(function () {
   'use strict';
-  if (!window.DATA) { window.DATA = { meta: {lastUpdated: '2026-04-17'}, packageSummary: [], latestVersions: [] }; }
   const D = window.DATA;
   const charts = {};
   let curSection = 'overview';
@@ -85,56 +84,26 @@
     loadHistoryData();
   });
 
-  // ===== 数据自动刷新（HTTP 环境下轮询 /api/data/meta） =====
-  let _dataHash = '';
-  let _refreshTimer = null;
-  const POLL_INTERVAL = 30 * 1000; // 30秒轮询一次
-
+  // ===== 数据自动刷新（静态版本，禁用API轮询） =====
   function initAutoRefresh() {
-    // 仅在 HTTP 环境下启用（file:// 协议无法 fetch）
-    if (location.protocol === 'file:') return;
-
-    // 首次获取 hash 作为基线
-    fetchDataMeta().then(meta => {
-      if (meta) _dataHash = meta.hash;
-    });
-
-    // 启动轮询
-    _refreshTimer = setInterval(checkDataUpdate, POLL_INTERVAL);
-
-    // 页面可见性切换：不可见时暂停，可见时立即检查
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        if (_refreshTimer) { clearInterval(_refreshTimer); _refreshTimer = null; }
-      } else {
-        checkDataUpdate();
-        if (!_refreshTimer) _refreshTimer = setInterval(checkDataUpdate, POLL_INTERVAL);
-      }
-    });
-
-    // 在 sidebar footer 显示自动刷新状态
-    showRefreshIndicator();
+    // 静态版本禁用API轮询，直接使用本地数据
+    console.log('静态版本：使用本地数据，禁用API轮询');
   }
 
   function fetchDataMeta() {
-    return fetch('/api/data/meta', { cache: 'no-store' })
-      .then(r => r.ok ? r.json() : null)
-      .catch(() => null);
+    // 返回静态数据版本信息
+    return Promise.resolve({
+      hash: 'static-' + D.meta.lastUpdated.replace(/\D/g, ''),
+      lastUpdated: D.meta.lastUpdated,
+      nextRun: null,
+      runCount: 0,
+      serverTime: new Date().toISOString()
+    });
   }
 
   function checkDataUpdate() {
-    fetchDataMeta().then(meta => {
-      if (!meta) return;
-      if (_dataHash && meta.hash !== _dataHash) {
-        console.log('[自动刷新] 检测到数据更新，重新加载页面...');
-        _dataHash = meta.hash;
-        showRefreshToast();
-        // 延迟 1.5s 让用户看到提示后刷新
-        setTimeout(() => location.reload(), 1500);
-      }
-      // 更新 sidebar 显示
-      updateRefreshIndicator(meta);
-    });
+    // 静态版本：无需检查更新
+    console.log('[静态版本] 使用本地数据，跳过更新检查');
   }
 
   function showRefreshIndicator() {
@@ -174,7 +143,7 @@
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.getElementById('sec-' + sec).classList.add('active');
         curSection = sec;
-        const titles = { overview:'竞品分析总览', 'package-size':'包体大小对比', 'version-updates':'版本更新追踪', 'test-process':'体验服测试流程', 'resource-breakdown':'资源拆包分析', 'pk-test-reports':'和平精英体验服报告', guide:'集成指南', 'wecom-bot':'企业微信机器人', 'agent-panel':'Agent 控制中心' };
+        const titles = { overview:'竞品分析总览', 'package-size':'包体大小对比', 'version-updates':'版本更新追踪', 'test-process':'体验服测试流程', 'resource-breakdown':'资源拆包分析', guide:'集成指南', 'wecom-bot':'企业微信机器人', 'agent-panel':'Agent 控制中心' };
         document.getElementById('pageTitle').textContent = titles[sec] || '';
         render();
       });
@@ -226,7 +195,7 @@
       case 'version-updates': renderVerSection(); break;
       case 'test-process': renderTestSection(); break;
       case 'resource-breakdown': renderResSection(); break;
-      case 'pk-test-reports': renderPkReportSection(); break;
+
       case 'guide': renderGuide(); break;
       case 'wecom-bot': renderWecomBot(); break;
       case 'agent-panel': renderAgentPanel(); break;
@@ -287,38 +256,28 @@
   function renderAnalysis() {
     const el = document.getElementById('analysisConclusion');
     if (!el) return;
-    const updateTime = D.meta.lastUpdated;
     el.innerHTML = `
-      <div style="background:#165dff11;border:1px solid #165dff33;border-radius:8px;padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-        <div style="display:flex;align-items:center;gap:8px">
-          <span style="background:#165dff;color:#fff;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">数据更新</span>
-          <span style="font-size:13px;color:#86909c">最新数据采集时间：<strong style="color:#4e5969">${updateTime}</strong>（已多渠道交叉验证）</span>
-        </div>
-        <a href="data-verify.html" target="_blank" style="font-size:12px;color:#165dff;text-decoration:none">🔍 查看交叉验证详情 →</a>
-      </div>
       <div class="analysis-grid">
         <div class="analysis-block analysis-danger">
           <div class="analysis-header"><span class="analysis-icon">⚠️</span><h4>包体大小：和平处于高位，优化空间大</h4></div>
           <div class="analysis-body">
             <ul>
-              <li><strong>iOS 商店包体 3.68G</strong>，在7款竞品中排名第二（王者3.62G、暗区3.60G、逆战3.56G、无畏契约3.48G、火影3.29G、三角洲3.27G）</li>
+              <li><strong>iOS 商店包体 3.96G</strong>，在7款竞品中排名最大（三角洲3.51G、暗区3.87G、王者3.17G）</li>
               <li><strong>更新后系统占用 30.3G（iOS）/ 40.73G（Android）</strong>，与三角洲行动持平（30G），但远超王者荣耀（18.4G）</li>
               <li><strong>自动更新包 10.8G</strong>，远超三角洲的4.4G和王者的0.98G，用户等待成本极高</li>
-              <li>⚡ <strong>4月动态</strong>：王者荣耀S43更新后iOS包体从3.16G→3.62G(+14.6%)，逼近和平精英</li>
               <li class="highlight">建议：推动资源分包策略，参考王者"可选下载"模式，将非核心资源改为按需下载，预计可将首次下载量降低 30-40%</li>
             </ul>
           </div>
         </div>
         <div class="analysis-block analysis-warning">
-          <div class="analysis-header"><span class="analysis-icon">🔄</span><h4>4月竞品密集更新期：3款竞品同期换季</h4></div>
+          <div class="analysis-header"><span class="analysis-icon">🔄</span><h4>体验服节奏：竞品更敏捷，和平需加速</h4></div>
           <div class="analysis-body">
             <ul>
-              <li>🔥 <strong>王者荣耀</strong> S43「陌上相逢」4月1日正式服更新，新英雄元流之子·刺客（登录即送），11位英雄平衡调整</li>
-              <li>🔥 <strong>暗区突围</strong> S17「迷雾」4月2日上线，诡雾山谷全图双倍爆率+全新PVE合作模式+3把新枪</li>
-              <li>🔥 <strong>逆战：未来</strong> S2「樱之渊」4月7日上线，端游经典猎场重制+三大新天赋+5V5刀战</li>
-              <li><strong>三角洲行动</strong> S9赛季定档4月中旬（核电站+巴雷特），国服DAU已破5000万（腾讯财报实锤）</li>
-              <li><strong>和平精英</strong> 4月14日七周年「电玩嘉年华」版本，v1.36体验服招募中（截止4月20日）</li>
-              <li class="highlight">建议：4月为竞品集中换季窗口期，和平精英4/14版本需在内容深度和营销力度上有差异化亮点，避免被竞品分流</li>
+              <li><strong>三角洲行动</strong>采用「保密一测→万人二测」双轮滚动机制，版本迭代间隔约 2-3 个月</li>
+              <li><strong>王者荣耀</strong>S43赛季体验服已于2026年2月24日更新（嫦娥/墨子/元法大改），常态化招募</li>
+              <li><strong>PUBGM</strong>通过先游平台分 3 轮精细化测试（新地图→BR→创新玩法）</li>
+              <li>和平精英当前版本更新频率约 3 个月/次，但<strong>缺少体验服公开招募的标准化流程</strong></li>
+              <li class="highlight">建议：建立"先游+自有渠道"双轨体验服招募机制，每次大版本前设置 2 轮测试（保密测+公开测），缩短反馈闭环</li>
             </ul>
           </div>
         </div>
@@ -337,9 +296,8 @@
           <div class="analysis-header"><span class="analysis-icon">💡</span><h4>竞争优势与机会</h4></div>
           <div class="analysis-body">
             <ul>
-              <li><strong>用户规模优势</strong>：和平精英日活超9000万+绿洲启元5800万，更新流程的任何优化都能带来巨大的体验收益</li>
-              <li><strong>App Store评分对比</strong>：逆战4.70 > 火影4.64 > 三角洲4.63 > 暗区4.35 > 和平4.33 > 无畏契约4.03 > 王者3.29</li>
-              <li><strong>新品冲击</strong>：逆战：未来iOS 3.56G快速膨胀（S2即将上线），三角洲行动PC端86G+移动30G走重度路线</li>
+              <li><strong>用户规模优势</strong>：和平精英用户基数最大，更新流程的任何优化都能带来巨大的体验收益</li>
+              <li><strong>新品冲击</strong>：逆战：未来（S1赛季iOS已达3.83G）快速膨胀，三角洲行动PC端86G+移动30G走重度路线</li>
               <li class="highlight">机会点：利用AI生成资源技术+运行时流式加载，可在不影响画质的前提下大幅压缩包体，建议立项技术预研</li>
             </ul>
           </div>
@@ -634,7 +592,8 @@
 
   // ===== 体验服 (最新数据 + 来源) =====
   function renderTestSection() {
-    document.getElementById('testGrid').innerHTML = D.testProcess.map(tp => `
+    const testProcess = D.testProcess || [];
+    document.getElementById('testGrid').innerHTML = testProcess.length > 0 ? testProcess.map(tp => `
       <div class="test-card">
         <div class="test-card-title">${logoImg(tp.product)}<span>${tp.product}</span></div>
         ${tp.rounds.map(r => `
@@ -644,16 +603,17 @@
           </div>
         `).join('')}
       </div>
-    `).join('');
+    `).join('') : '<div class="wc-empty">?????????</div>';
 
-    document.getElementById('flowGrid').innerHTML = D.updateFlows.map(f => {
+    const updateFlows = D.updateFlows || [];
+    document.getElementById('flowGrid').innerHTML = updateFlows.length > 0 ? updateFlows.map(f => {
       const baseName = f.product.replace(/\(.*\)$/,'');
       return `
       <div class="flow-card">
         <div class="flow-title">${logoImg(baseName)}<span>${f.product}</span></div>
         ${f.steps.map((s,i) => `<div class="flow-step"><span class="flow-num">${i+1}</span><span>${s}</span></div>`).join('')}
       </div>
-    `}).join('');
+    `;}).join('') : '<div class="wc-empty">????????</div>';
 
     // 数据来源
     document.getElementById('testSourceFooter').innerHTML = `
@@ -676,10 +636,18 @@
 
   // ===== 资源拆包 =====
   function renderResSection() {
-    const keys = Object.keys(D.resourceBreakdown);
+    const resourceBreakdown = D.resourceBreakdown || {};
+    const keys = Object.keys(resourceBreakdown);
+    if (keys.length === 0) {
+      document.getElementById('resTabs').innerHTML = '';
+      document.getElementById('resTableBody').innerHTML = '<tr><td colspan="4">????????</td></tr>';
+      destroyChart('pie');
+      destroyChart('resbar');
+      return;
+    }
     if (!curResKey || !keys.includes(curResKey)) curResKey = keys[0];
     renderTabs('resTabs', keys, curResKey, k => { curResKey = k; renderResSection(); });
-    const rd = D.resourceBreakdown[curResKey];
+    const rd = resourceBreakdown[curResKey];
     const labels = Object.keys(rd);
     const values = Object.values(rd);
     const total = values.reduce((a,b) => a+b, 0);
@@ -740,228 +708,6 @@
     box.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => onClick(t.dataset.v)));
   }
 
-  // ===== 和平精英体验服报告 =====
-  function renderPkReportSection() {
-    const reports = D.pkTestReports;
-    if (!reports) return;
-    const versions = Object.keys(reports);
-    if (!curPkVersion || !versions.includes(curPkVersion)) curPkVersion = versions[versions.length - 1];
-
-    // Tabs
-    const tabBox = document.getElementById('pkReportTabs');
-    tabBox.innerHTML = versions.map(v => {
-      return `<button class="tab ${v === curPkVersion ? 'active' : ''}" data-v="${v}"><span>${v}</span></button>`;
-    }).join('');
-    tabBox.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
-      curPkVersion = t.dataset.v;
-      renderPkReportSection();
-    }));
-
-    const rpt = reports[curPkVersion];
-    if (!rpt) return;
-
-    // Overview cards
-    const scoreColor = rpt.overallScore >= 4.5 || rpt.overallScore >= 8.5 ? 'green' : rpt.overallScore >= 4.0 || rpt.overallScore >= 8.0 ? '' : 'red';
-    const satColor = rpt.satisfaction >= 85 ? 'green' : rpt.satisfaction >= 70 ? 'orange' : 'red';
-    const trendIcon = rpt.trend === 'up' ? '📈' : rpt.trend === 'down' ? '📉' : '➡️';
-    const trendColor = rpt.trend === 'up' ? 'green' : rpt.trend === 'down' ? 'red' : '';
-
-    const sampleText = typeof rpt.sampleSizes === 'object'
-      ? Object.entries(rpt.sampleSizes).map(([k,v]) => `${k}: ${v}人`).join(' / ')
-      : rpt.sampleSizes + '人';
-
-    document.getElementById('pkReportOverview').innerHTML = `
-      <div class="stats pk-report-stats">
-        <div class="stat-card ${scoreColor}">
-          <div class="stat-label">整体评分</div>
-          <div class="stat-val">${rpt.overallScore}<span class="pk-score-max">/${rpt.overallScoreMax}</span></div>
-          <div class="stat-sub">${rpt.title} · ${rpt.period}</div>
-        </div>
-        <div class="stat-card ${satColor}">
-          <div class="stat-label">满意度</div>
-          <div class="stat-val">${rpt.satisfaction}%</div>
-          <div class="stat-sub">${rpt.theme}</div>
-        </div>
-        <div class="stat-card ${trendColor}">
-          <div class="stat-label">${trendIcon} 版本趋势</div>
-          <div class="stat-val pk-trend-val">${rpt.trendNote}</div>
-          <div class="stat-sub">平台: ${rpt.platforms.join(' / ')}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">样本量</div>
-          <div class="stat-val pk-sample-val">${Object.values(rpt.sampleSizes).reduce((a,b) => a+b, 0)}</div>
-          <div class="stat-sub">${sampleText}</div>
-        </div>
-      </div>
-    `;
-
-    // Module cards
-    const modBox = document.getElementById('pkReportModules');
-    modBox.innerHTML = `<div class="pk-module-grid">${rpt.modules.map((m, i) => {
-      const maxScore = rpt.overallScoreMax === 10 ? 10 : 5;
-      const pct = (m.score / maxScore * 100).toFixed(0);
-      const barColor = m.score >= 4.6 || (maxScore === 10 && m.score >= 8.5) ? 'var(--green)' : m.score >= 4.0 || (maxScore === 10 && m.score >= 7.5) ? 'var(--blue)' : 'var(--red)';
-      return `
-        <div class="pk-module-card">
-          <div class="pk-module-head">
-            <span class="pk-module-name">${m.name}</span>
-            <span class="pk-module-score" style="color:${barColor}">${m.score}</span>
-          </div>
-          <div class="pk-module-bar-wrap">
-            <div class="pk-module-bar" style="width:${pct}%;background:${barColor}"></div>
-          </div>
-          <div class="pk-module-meta">
-            <span class="pk-module-sat">满意度 ${m.satisfaction}%</span>
-          </div>
-          <div class="pk-module-highlight">${m.highlight}</div>
-        </div>`;
-    }).join('')}</div>`;
-
-    // Module bar chart
-    renderPkModuleChart(rpt);
-
-    // Trend chart
-    renderPkTrendChart(reports, versions);
-
-    // Core findings
-    document.getElementById('pkCoreFindings').innerHTML = `<div class="pk-findings-list">${rpt.coreFindings.map((f, i) => {
-      const isKey = f.includes('最低') || f.includes('痛点') || f.includes('下降');
-      return `<div class="pk-finding-item ${isKey ? 'pk-finding-warn' : ''}">
-        <span class="pk-finding-num">${i + 1}</span>
-        <span class="pk-finding-text">${f}</span>
-      </div>`;
-    }).join('')}</div>`;
-
-    // Player suggestions
-    document.getElementById('pkPlayerSuggestions').innerHTML = `<div class="pk-suggest-list">${rpt.playerSuggestions.map((s, i) => {
-      return `<div class="pk-suggest-item">
-        <span class="pk-suggest-icon">💡</span>
-        <span class="pk-suggest-text">${s}</span>
-      </div>`;
-    }).join('')}</div>`;
-
-    // File index
-    document.getElementById('pkFileIndex').innerHTML = `<div class="pk-file-list">${rpt.files.map(f => {
-      return `<div class="pk-file-item">
-        <span class="pk-file-icon">📄</span>
-        <div class="pk-file-info">
-          <span class="pk-file-name">${f.name}</span>
-          <span class="pk-file-path">${f.file}</span>
-        </div>
-      </div>`;
-    }).join('')}</div>`;
-  }
-
-  function renderPkModuleChart(rpt) {
-    destroyChart('pkModules');
-    const maxScore = rpt.overallScoreMax === 10 ? 10 : 5;
-    const labels = rpt.modules.map(m => m.name.length > 8 ? m.name.slice(0, 8) + '…' : m.name);
-    const scores = rpt.modules.map(m => m.score);
-    const bgColors = scores.map(s => {
-      if (s >= 4.6 || (maxScore === 10 && s >= 8.5)) return '#00b42a';
-      if (s >= 4.0 || (maxScore === 10 && s >= 7.5)) return '#165dff';
-      return '#f53f3f';
-    });
-
-    charts['pkModules'] = new Chart(document.getElementById('chartPkModules'), {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          data: scores,
-          backgroundColor: bgColors,
-          borderWidth: 0,
-          borderRadius: 4,
-          barPercentage: 0.6
-        }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        indexAxis: 'y',
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            cornerRadius: 4, padding: 10, backgroundColor: 'rgba(0,0,0,.8)',
-            callbacks: { label: it => `评分: ${it.parsed.x}/${maxScore}` }
-          },
-          datalabels: {
-            display: true, color: '#fff', anchor: 'center', align: 'center',
-            font: { size: 11, weight: 700 },
-            formatter: v => v.toFixed(1)
-          }
-        },
-        scales: {
-          x: { min: 0, max: maxScore, ticks: { font: { size: 11 }, stepSize: 1 }, grid: { color: '#f2f3f5', drawBorder: false } },
-          y: { ticks: { font: { size: 10 } }, grid: { display: false } }
-        }
-      }
-    });
-  }
-
-  function renderPkTrendChart(reports, versions) {
-    destroyChart('pkTrend');
-    const trendLabels = versions;
-    const trendScores = versions.map(v => {
-      const r = reports[v];
-      return r.overallScoreMax === 10 ? r.overallScore : r.overallScore * 2;
-    });
-    const trendSat = versions.map(v => reports[v].satisfaction);
-
-    charts['pkTrend'] = new Chart(document.getElementById('chartPkTrend'), {
-      type: 'line',
-      data: {
-        labels: trendLabels,
-        datasets: [
-          {
-            label: '整体评分(10分制)',
-            data: trendScores,
-            borderColor: '#165dff',
-            backgroundColor: 'rgba(22,93,255,0.1)',
-            fill: true,
-            tension: 0.3,
-            pointRadius: 5,
-            pointHoverRadius: 7,
-            borderWidth: 2,
-            yAxisID: 'y'
-          },
-          {
-            label: '满意度(%)',
-            data: trendSat,
-            borderColor: '#ff7d00',
-            backgroundColor: 'rgba(255,125,0,0.1)',
-            fill: false,
-            tension: 0.3,
-            pointRadius: 5,
-            pointHoverRadius: 7,
-            borderWidth: 2,
-            borderDash: [5, 3],
-            yAxisID: 'y1'
-          }
-        ]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'top', align: 'end', labels: { font: { size: 11 }, padding: 14, usePointStyle: true } },
-          tooltip: { cornerRadius: 4, padding: 10, backgroundColor: 'rgba(0,0,0,.8)' },
-          datalabels: {
-            display: function(ctx) { return ctx.datasetIndex === 0; },
-            color: '#165dff', anchor: 'end', align: 'top',
-            font: { size: 10, weight: 600 },
-            formatter: v => v.toFixed(1),
-            offset: 4
-          }
-        },
-        scales: {
-          x: { ticks: { font: { size: 10 } }, grid: { display: false } },
-          y: { position: 'left', min: 0, max: 10, ticks: { font: { size: 11 }, stepSize: 2 }, grid: { color: '#f2f3f5', drawBorder: false }, title: { display: true, text: '评分(10分制)', font: { size: 11 } } },
-          y1: { position: 'right', min: 0, max: 100, ticks: { font: { size: 11 }, stepSize: 20, callback: v => v + '%' }, grid: { display: false }, title: { display: true, text: '满意度(%)', font: { size: 11 } } }
-        }
-      }
-    });
-  }
-
-  // ===== 集成指南 =====
   function renderGuide() {
     document.getElementById('guideContent').innerHTML = `
       <div class="guide-section">
@@ -1040,22 +786,14 @@ resourceBreakdown{} - 各产品资源拆包详情
       return;
     }
 
-    // 加载配置
-    fetch('/api/wecom/config', { cache: 'no-store' })
-      .then(r => r.json())
-      .then(config => {
-        _wecomConfig = config;
-        renderWecomConfigPanel(config);
-        renderWecomReportPanel(config);
-        renderWecomPushLog(config);
-      })
-      .catch(err => {
-        document.getElementById('wecomConfigPanel').innerHTML = `
-          <div class="wc-notice wc-notice-err">
-            <span class="wc-notice-icon">❌</span>
-            <div><strong>加载配置失败</strong><p>${err.message}</p></div>
-          </div>`;
-      });
+    // 静态版本：禁用企业微信功能
+    document.getElementById('wecomConfigPanel').innerHTML = `
+      <div class="wc-notice wc-notice-info">
+        <span class="wc-notice-icon">ℹ️</span>
+        <div><strong>静态版本</strong><p>企业微信功能在静态部署中不可用</p></div>
+      </div>`;
+    document.getElementById('wecomReportPanel').innerHTML = '';
+    document.getElementById('wecomPushLog').innerHTML = '';
   }
 
   function renderWecomConfigPanel(config) {
@@ -1114,7 +852,7 @@ resourceBreakdown{} - 各产品资源拆包详情
               <select id="wcReportType" class="wc-select">
                 <option value="summary" ${config.reportType === 'summary' ? 'selected' : ''}>摘要报告（适合群推送）</option>
                 <option value="full" ${config.reportType === 'full' ? 'selected' : ''}>完整报告</option>
-                <!-- 暂时隐藏 <option value="pk-report" ${config.reportType === 'pk-report' ? 'selected' : ''}>体验服专项报告</option> -->
+                <option value="pk-report" ${config.reportType === 'pk-report' ? 'selected' : ''}>体验服专项报告</option>
               </select>
             </div>
           </div>
@@ -1156,20 +894,9 @@ resourceBreakdown{} - 各产品资源拆包详情
         if (!webhook) return;
         btn.textContent = '⏳ 发送中...';
         btn.disabled = true;
-        fetch('/api/wecom/test', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ key: webhook.key, name: webhook.name })
-        })
-          .then(r => r.json())
-          .then(res => {
-            btn.textContent = res.success ? '✅ 成功' : '❌ 失败';
-            setTimeout(() => { btn.textContent = '🔔 测试'; btn.disabled = false; }, 2000);
-          })
-          .catch(() => {
-            btn.textContent = '❌ 错误';
-            setTimeout(() => { btn.textContent = '🔔 测试'; btn.disabled = false; }, 2000);
-          });
+        // 静态版本：禁用企业微信测试
+        btn.textContent = '❌ 静态版本不可用';
+        setTimeout(() => { btn.textContent = '🔔 测试'; btn.disabled = false; }, 2000);
       });
     });
 
@@ -1205,21 +932,9 @@ resourceBreakdown{} - 各产品资源拆包详情
         dashboardUrl: document.getElementById('wcDashUrl').value.trim()
       };
 
-      fetch('/api/wecom/config', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newConfig)
-      })
-        .then(r => r.json())
-        .then(res => {
-          saveBtn.textContent = res.success ? '✅ 已保存' : '❌ 保存失败';
-          setTimeout(() => { saveBtn.textContent = '💾 保存配置'; saveBtn.disabled = false; }, 2000);
-          if (res.success) renderWecomBot(); // 刷新
-        })
-        .catch(() => {
-          saveBtn.textContent = '❌ 网络错误';
-          setTimeout(() => { saveBtn.textContent = '💾 保存配置'; saveBtn.disabled = false; }, 2000);
-        });
+      // 静态版本：禁用配置保存
+      saveBtn.textContent = '❌ 静态版本不可用';
+      setTimeout(() => { saveBtn.textContent = '💾 保存配置'; saveBtn.disabled = false; }, 2000);
     });
   }
 
@@ -1230,7 +945,7 @@ resourceBreakdown{} - 各产品资源拆包详情
         <div class="wc-report-type-selector">
           <button class="btn wc-report-btn active" data-type="summary">📋 摘要报告</button>
           <button class="btn wc-report-btn" data-type="full">📄 完整报告</button>
-          <!-- 暂时隐藏 <button class="btn wc-report-btn" data-type="pk-report">📝 体验服专项</button> -->
+          <button class="btn wc-report-btn" data-type="pk-report">📝 体验服专项</button>
         </div>
         <div class="wc-report-btns">
           <button class="btn" id="wcPreviewBtn">👁️ 预览报告</button>
@@ -1254,31 +969,10 @@ resourceBreakdown{} - 各产品资源拆包详情
       const btn = document.getElementById('wcPreviewBtn');
       btn.textContent = '⏳ 生成中...';
       btn.disabled = true;
-      fetch(`/api/report/generate?type=${selectedType}`)
-        .then(r => r.json())
-        .then(res => {
-          if (res.success) {
-            // 简单 Markdown 渲染
-            const html = simpleMarkdownToHtml(res.markdown);
-            preview.innerHTML = `
-              <div class="wc-preview-header">
-                <span>📄 ${res.filename}</span>
-                <span class="wc-preview-size">${(res.size / 1024).toFixed(1)} KB</span>
-              </div>
-              <div class="wc-preview-body">${html}</div>`;
-            preview.style.display = 'block';
-          } else {
-            preview.innerHTML = `<div class="wc-notice wc-notice-err"><span class="wc-notice-icon">❌</span><span>${res.error}</span></div>`;
-            preview.style.display = 'block';
-          }
-          btn.textContent = '👁️ 预览报告';
-          btn.disabled = false;
-        })
-        .catch(err => {
-          btn.textContent = '👁️ 预览报告';
-          btn.disabled = false;
-          alert('预览失败: ' + err.message);
-        });
+      // 静态版本：禁用报告预览
+      btn.textContent = '👁️ 预览报告';
+      btn.disabled = false;
+      alert('静态版本：报告预览功能不可用');
     });
 
     document.getElementById('wcPushNowBtn').addEventListener('click', () => {
@@ -1291,25 +985,9 @@ resourceBreakdown{} - 各产品资源拆包详情
       const btn = document.getElementById('wcPushNowBtn');
       btn.textContent = '⏳ 推送中...';
       btn.disabled = true;
-      fetch('/api/wecom/push', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: selectedType })
-      })
-        .then(r => r.json())
-        .then(res => {
-          if (res.success) {
-            btn.textContent = '✅ 推送成功';
-            renderWecomBot(); // 刷新
-          } else {
-            btn.textContent = '❌ ' + (res.error || '推送失败');
-          }
-          setTimeout(() => { btn.textContent = '🚀 立即推送'; btn.disabled = false; }, 3000);
-        })
-        .catch(err => {
-          btn.textContent = '❌ 网络错误';
-          setTimeout(() => { btn.textContent = '🚀 立即推送'; btn.disabled = false; }, 3000);
-        });
+      // 静态版本：禁用推送功能
+      btn.textContent = '❌ 静态版本不可用';
+      setTimeout(() => { btn.textContent = '🚀 立即推送'; btn.disabled = false; }, 3000);
     });
   }
 
@@ -1353,37 +1031,19 @@ resourceBreakdown{} - 各产品资源拆包详情
   let _agentData = null;
 
   function renderAgentPanel() {
-    if (location.protocol === 'file:') {
-      document.getElementById('agentControlPanel').innerHTML = `
-        <div class="wc-notice wc-notice-warn">
-          <span class="wc-notice-icon">⚠️</span>
-          <div><strong>需要 HTTP 环境</strong><p>Agent 控制中心需要通过 <code>node server.js</code> 启动服务后使用。</p></div>
-        </div>`;
-      ['agentStats','agentAlertPanel','agentCrawlPanel','agentAnalysisPanel','agentLogPanel'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = '';
-      });
-      return;
-    }
+    const badge = document.getElementById('agentAlertCount');
+    if (badge) badge.textContent = '--';
 
-    fetch('/api/agent/state', { cache: 'no-store' })
-      .then(r => r.json())
-      .then(data => {
-        _agentData = data;
-        renderAgentStats(data);
-        renderAgentControl(data);
-        renderAgentAlerts(data);
-        renderAgentCrawl(data);
-        renderAgentAnalysis(data);
-        renderAgentLogs(data);
-      })
-      .catch(err => {
-        document.getElementById('agentControlPanel').innerHTML = `
-          <div class="wc-notice wc-notice-err">
-            <span class="wc-notice-icon">❌</span>
-            <div><strong>加载失败</strong><p>${err.message}</p></div>
-          </div>`;
-      });
+    document.getElementById('agentStats').innerHTML = '';
+    document.getElementById('agentControlPanel').innerHTML = `
+      <div class="wc-notice wc-notice-info">
+        <span class="wc-notice-icon">??</span>
+        <div><strong>??????</strong><p>Agent ??????????????Vercel / GitHub Pages ?????????</p></div>
+      </div>`;
+    document.getElementById('agentAlertPanel').innerHTML = '<div class="wc-empty">???????????</div>';
+    document.getElementById('agentCrawlPanel').innerHTML = '<div class="wc-empty">???????????</div>';
+    document.getElementById('agentAnalysisPanel').innerHTML = '<div class="wc-empty">?????????????</div>';
+    document.getElementById('agentLogPanel').innerHTML = '<div class="wc-empty">???????????</div>';
   }
 
   function renderAgentStats(data) {
@@ -1505,35 +1165,18 @@ resourceBreakdown{} - 各产品资源拆包详情
       document.getElementById('agRunStatus').style.display = 'block';
       document.getElementById('agRunStatus').innerHTML = '<div class="ag-running"><div class="ioa-detect-spinner" style="width:24px;height:24px;border-width:2px;margin:0"></div><span>Pipeline 正在后台执行，请稍候刷新查看结果...</span></div>';
       
-      fetch('/api/agent/run', { method: 'POST', headers: {'Content-Type':'application/json'}, body: '{}' })
-        .then(r => r.json())
-        .then(() => {
-          btn.textContent = '✅ 已启动';
-          setTimeout(() => { btn.textContent = '⚡ 立即执行全链路'; btn.disabled = false; }, 3000);
-          // 15秒后自动刷新
-          setTimeout(() => renderAgentPanel(), 15000);
-        })
-        .catch(() => {
-          btn.textContent = '❌ 启动失败';
-          setTimeout(() => { btn.textContent = '⚡ 立即执行全链路'; btn.disabled = false; }, 2000);
-        });
+      // 静态版本：禁用Agent执行
+      btn.textContent = '❌ 静态版本不可用';
+      setTimeout(() => { btn.textContent = '⚡ 立即执行全链路'; btn.disabled = false; }, 2000);
     });
 
     document.getElementById('agRunCrawlBtn').addEventListener('click', () => {
       const btn = document.getElementById('agRunCrawlBtn');
       btn.textContent = '⏳ 采集中...';
       btn.disabled = true;
-      fetch('/api/agent/crawl', { method: 'POST', headers: {'Content-Type':'application/json'}, body: '{}' })
-        .then(r => r.json())
-        .then(() => {
-          btn.textContent = '✅ 已启动';
-          setTimeout(() => { btn.textContent = '📡 仅采集数据'; btn.disabled = false; }, 3000);
-          setTimeout(() => renderAgentPanel(), 10000);
-        })
-        .catch(() => {
-          btn.textContent = '❌ 失败';
-          setTimeout(() => { btn.textContent = '📡 仅采集数据'; btn.disabled = false; }, 2000);
-        });
+      // 静态版本：禁用数据采集
+      btn.textContent = '❌ 静态版本不可用';
+      setTimeout(() => { btn.textContent = '📡 仅采集数据'; btn.disabled = false; }, 2000);
     });
 
     document.getElementById('agRefreshBtn').addEventListener('click', () => renderAgentPanel());
@@ -1556,17 +1199,9 @@ resourceBreakdown{} - 各产品资源拆包详情
           sentimentShift: true
         }
       };
-      fetch('/api/agent/config', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(config) })
-        .then(r => r.json())
-        .then(res => {
-          btn.textContent = res.success ? '✅ 已保存' : '❌ 失败';
-          setTimeout(() => { btn.textContent = '💾 保存配置'; btn.disabled = false; }, 2000);
-          if (res.success) renderAgentPanel();
-        })
-        .catch(() => {
-          btn.textContent = '❌ 网络错误';
-          setTimeout(() => { btn.textContent = '💾 保存配置'; btn.disabled = false; }, 2000);
-        });
+      // 静态版本：禁用配置保存
+      btn.textContent = '❌ 静态版本不可用';
+      setTimeout(() => { btn.textContent = '💾 保存配置'; btn.disabled = false; }, 2000);
     });
   }
 
@@ -1614,68 +1249,14 @@ resourceBreakdown{} - 各产品资源拆包详情
     `;
 
     document.getElementById('agClearAlertsBtn')?.addEventListener('click', () => {
-      fetch('/api/agent/alerts/clear', { method: 'POST' })
-        .then(() => renderAgentPanel())
-        .catch(() => alert('清除失败'));
+      // 静态版本：禁用清除功能
+      alert('静态版本：清除功能不可用');
     });
   }
 
   function renderAgentCrawl(data) {
     const panel = document.getElementById('agentCrawlPanel');
-    const crawl = data.lastCrawl;
-    
-    if (!crawl) {
-      panel.innerHTML = '<div class="wc-empty">尚未执行过数据采集，点击「📡 仅采集数据」开始</div>';
-      return;
-    }
-
-    // 从 crawl-results 获取详细数据
-    fetch('/api/agent/crawl-results', { cache: 'no-store' })
-      .then(r => r.json())
-      .then(results => {
-        if (!results.products || Object.keys(results.products).length === 0) {
-          panel.innerHTML = '<div class="wc-empty">采集数据为空</div>';
-          return;
-        }
-
-        let html = `<div class="ag-crawl-meta">
-          <span>采集时间: <strong>${new Date(crawl.crawlTime).toLocaleString('zh-CN')}</strong></span>
-          <span>产品数: <strong>${crawl.productCount}</strong></span>
-          <span>成功: <strong>${crawl.successCount}</strong></span>
-          <span>失败: <strong>${crawl.failCount}</strong></span>
-        </div>`;
-
-        html += '<div class="ag-crawl-grid">';
-        for (const [name, product] of Object.entries(results.products)) {
-          const app = product.appStore?.success ? product.appStore.data : null;
-          const comm = product.community?.success ? product.community.data : null;
-          
-          html += `<div class="ag-crawl-card ${product.config?.isOurs ? 'ag-crawl-ours' : ''}">
-            <div class="ag-crawl-card-hd">
-              ${logoImg(name)}<strong>${name}</strong>
-              ${product.config?.isOurs ? '<span class="tag tag-orange" style="font-size:9px">自研</span>' : ''}
-            </div>
-            ${app ? `
-              <div class="ag-crawl-row"><span>版本</span><strong>${app.version}</strong></div>
-              <div class="ag-crawl-row"><span>包体</span><strong>${app.fileSizeGB}GB</strong></div>
-              <div class="ag-crawl-row"><span>App Store 评分</span><strong>${app.rating || 'N/A'}</strong> <small>(${app.ratingCount}条)</small></div>
-            ` : '<div class="ag-crawl-row"><span>App Store</span><span style="color:#f53f3f">采集失败</span></div>'}
-            ${comm ? `
-              <div class="ag-crawl-row"><span>TapTap 评分</span><strong>${comm.taptapRating}</strong></div>
-              <div class="ag-crawl-row"><span>舆情</span><span class="tag tag-${comm.sentiment === 'positive' ? 'green' : comm.sentiment === 'negative' ? 'red' : 'orange'}" style="font-size:10px">${comm.sentiment === 'positive' ? '正面' : comm.sentiment === 'negative' ? '负面' : '中性'}</span></div>
-              <div class="ag-crawl-topics">${comm.hotTopics?.slice(0,3).map(t => `<span class="tag tag-blue" style="font-size:9px">${t}</span>`).join(' ') || ''}</div>
-            ` : ''}
-          </div>`;
-        }
-        html += '</div>';
-        panel.innerHTML = html;
-      })
-      .catch(() => {
-        panel.innerHTML = `<div class="ag-crawl-meta">
-          <span>采集时间: <strong>${new Date(crawl.crawlTime).toLocaleString('zh-CN')}</strong></span>
-          <span>产品数: <strong>${crawl.productCount}</strong></span>
-        </div><div class="wc-empty">详细数据加载失败</div>`;
-      });
+    panel.innerHTML = '<div class="wc-empty">???????????</div>';
   }
 
   function renderAgentAnalysis(data) {
@@ -1781,19 +1362,23 @@ resourceBreakdown{} - 各产品资源拆包详情
 
   function loadHistoryData() {
     if (location.protocol === 'file:') {
-      console.log('[时间筛选] file:// 协议不支持历史数据加载');
+      console.log('[????] file:// ???????????');
       return;
     }
 
-    fetch('/api/data/history', { cache: 'no-store' })
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data) {
-          historyData = data;
-          console.log('[时间筛选] 已加载历史数据');
-        }
+    fetch('data/package-size-history.json', { cache: 'no-store' })
+      .then(res => {
+        if (!res.ok) throw new Error('history not found');
+        return res.json();
       })
-      .catch(err => console.log('[时间筛选] 加载历史数据跳过:', err.message));
+      .then(data => {
+        historyData = data;
+        console.log('[????] ???????');
+      })
+      .catch(() => {
+        historyData = null;
+        console.log('[????] ?????????????????????');
+      });
   }
 
   function applyDateFilter() {
@@ -1912,4 +1497,5 @@ resourceBreakdown{} - 各产品资源拆包详情
     };
   }
 
-})();
+})();
+

@@ -1,42 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Vercel Cache Bust -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>竞品分析看板 - G-Studio Insight</title>
+  <title>竞品分析 Dashboard - 腾讯内网</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/chart.umd.min.js"></script>
   <script src="js/chartjs-plugin-datalabels.min.js"></script>
-  <script>
-  // 强制清除缓存加载
-  document.addEventListener('DOMContentLoaded', function() {
-    const scripts = document.querySelectorAll('script[src*="js/app"]');
-    let hasOldVersion = false;
-    scripts.forEach(s => {
-      if (s.src.includes('v=202603')) {
-        // 旧版本缓存，强制刷新
-        const url = s.src.split('?')[0];
-        s.src = url + '?v=' + Date.now();
-        hasOldVersion = true;
-      }
-    });
-    if (hasOldVersion) {
-      location.reload(true);
-    }
-  });
-  </script>
 </head>
 <body>
 
-<!-- 移动端汉堡菜单按钮 -->
-<button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="打开菜单">☰</button>
-<div class="mobile-overlay" id="mobileOverlay"></div>
-
-<!-- iOA 验证已禁用- 直接访问模式 -->
+<!-- iOA 验证已禁用 - 直接访问模式 -->
 <div class="ioa-login-overlay" id="ioaLoginOverlay" style="display:none"></div>
 
 <script>
@@ -59,16 +33,13 @@
     <a class="nav-item" data-section="version-updates">
       <span class="nav-icon">🔄</span>版本更新追踪
     </a>
-    <!-- 体验服相关模块暂时隐藏 -->
-    <a class="nav-item" data-section="test-process" style="display:none">
+    <a class="nav-item" data-section="test-process">
       <span class="nav-icon">🧪</span>体验服测试流程
     </a>
     <a class="nav-item" data-section="resource-breakdown">
       <span class="nav-icon">📂</span>资源拆包分析
     </a>
-    <a class="nav-item" data-section="pk-test-reports" style="display:none">
-      <span class="nav-icon">📝</span>和平精英体验服报告
-    </a>
+
     <a class="nav-item" data-section="guide">
       <span class="nav-icon">📖</span>集成指南
     </a>
@@ -76,10 +47,7 @@
       <span class="nav-icon">🤖</span>企微机器人
     </a>
     <a class="nav-item" data-section="agent-panel">
-      <span class="nav-icon">⚙️</span>Agent 中心
-    </a>
-    <a class="nav-item" href="data-verify.html" target="_blank" style="border-top:1px solid #2a2a4a;margin-top:8px;padding-top:12px">
-      <span class="nav-icon">🔍</span>数据交叉验证
+      <span class="nav-icon">⚡</span>Agent 中心
     </a>
   </nav>
   <div class="sidebar-footer"><span class="dot-live"></span><span id="updateTime">数据加载中</span></div>
@@ -92,7 +60,7 @@
       <div class="date-filter" id="dateFilter" style="display:flex;align-items:center;gap:8px;margin-right:12px">
         <label style="font-size:12px;color:#86909c">时间范围:</label>
         <input type="date" id="dateStart" style="padding:4px 8px;border:1px solid #e5e6eb;border-radius:4px;font-size:12px">
-        <span style="color:#c9cdd4">-</span>
+        <span style="color:#c9cdd4">至</span>
         <input type="date" id="dateEnd" style="padding:4px 8px;border:1px solid #e5e6eb;border-radius:4px;font-size:12px">
         <button class="btn btn-sm" id="btnApplyDate" style="padding:4px 12px;font-size:12px">应用</button>
         <button class="btn btn-sm" id="btnResetDate" style="padding:4px 12px;font-size:12px;background:#f2f3f5;color:#4e5969">重置</button>
@@ -133,19 +101,19 @@
   <!-- 包体大小 -->
   <div class="section" id="sec-package-size">
     <div class="card">
-      <div class="card-hd"><h3 id="mobileSizeTitle">iOS 端包体大小对比(GB)</h3></div>
+      <div class="card-hd"><h3 id="mobileSizeTitle">iOS 端包体大小对比 (GB)</h3></div>
       <div class="card-bd"><div class="chart-box chart-box-lg"><canvas id="chartMobile"></canvas></div></div>
     </div>
     <div class="card">
-      <div class="card-hd"><h3>PC 端包体大小对比(GB)</h3></div>
+      <div class="card-hd"><h3>PC 端包体大小对比 (GB)</h3></div>
       <div class="card-bd"><div class="chart-box"><canvas id="chartPC"></canvas></div></div>
     </div>
     <div class="card">
-      <div class="card-hd"><h3>包体详细数据</h3></div>
+      <div class="card-hd"><h3>包体详细数据表</h3></div>
       <div class="card-bd no-pad">
         <div style="overflow-x:auto">
           <table class="tbl">
-            <thead><tr><th>产品</th><th>版本</th><th>版本号</th><th>平台</th><th>应用商店包体</th><th>自动更新包体</th><th>下载总大小</th><th>系统显示占用</th><th>更新后占用</th></tr></thead>
+            <thead><tr><th>产品</th><th>版本</th><th>版本名</th><th>平台</th><th>应用商店包体</th><th>自动更新包体</th><th>下载总大小</th><th>系统显示占用</th><th>更新后占用</th></tr></thead>
             <tbody id="pkgTableBody"></tbody>
           </table>
         </div>
@@ -170,8 +138,8 @@
     </div>
   </div>
 
-  <!-- 体验服测试(暂时隐藏) -->
-  <div class="section" id="sec-test-process" style="display:none !important">
+  <!-- 体验服测试 -->
+  <div class="section" id="sec-test-process">
     <div class="card">
       <div class="card-hd"><h3>各产品体验服/测试安排</h3><span class="tag tag-green">2026年最新</span></div>
       <div class="card-bd"><div class="grid-2" id="testGrid"></div></div>
@@ -208,44 +176,12 @@
       </div>
     </div>
     <div class="source-footer">
-      <strong>数据来源:</strong>资源拆包数据通过各应用商店下载后在设备端实际测量获取（iOS使用ASTC纹理格式，Android使用ETC2格式，因此同产品不同平台的资源大小存在差异）
+      <strong>数据来源：</strong>资源拆包数据通过各应用商店下载后在设备端实际测量获取（iOS使用ASTC纹理格式，Android使用ETC2格式，因此同产品不同平台的资源大小存在差异）。
       数据刷新周期：双周更新。如需紧急更新，请联系看板管理员。
     </div>
   </div>
 
-  <!-- 和平精英体验服报告(暂时隐藏) -->
-  <div class="section" id="sec-pk-test-reports" style="display:none !important">
-    <div class="tabs" id="pkReportTabs"></div>
-    <div id="pkReportOverview"></div>
-    <div class="card">
-      <div class="card-hd"><h3>玩法模块评分</h3><span class="tag tag-blue">详细数据</span></div>
-      <div class="card-bd" id="pkReportModules"></div>
-    </div>
-    <div class="card-row">
-      <div class="card">
-        <div class="card-hd"><h3>模块评分分布</h3></div>
-        <div class="card-bd"><div class="chart-box" id="pkChartWrap"><canvas id="chartPkModules"></canvas></div></div>
-      </div>
-      <div class="card">
-        <div class="card-hd"><h3>版本满意度趋势</h3></div>
-        <div class="card-bd"><div class="chart-box" id="pkTrendWrap"><canvas id="chartPkTrend"></canvas></div></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><h3>核心发现</h3><span class="tag tag-orange">重点关注</span></div>
-      <div class="card-bd" id="pkCoreFindings"></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><h3>玩家建议</h3><span class="tag tag-green">改进方向</span></div>
-      <div class="card-bd" id="pkPlayerSuggestions"></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><h3>原始报告文件索引</h3><span class="tag tag-purple">引用文件</span></div>
-      <div class="card-bd" id="pkFileIndex"></div>
-    </div>
-  </div>
 
-  <!-- 集成指南 -->
   <div class="section" id="sec-guide">
     <div class="card"><div class="card-hd"><h3>集成指南</h3></div>
       <div class="card-bd" id="guideContent"></div>
@@ -272,11 +208,11 @@
   <div class="section" id="sec-agent-panel">
     <div class="stats" id="agentStats"></div>
     <div class="card">
-      <div class="card-hd"><h3>⚙️ Agentic Engine 控制台</h3><span class="tag tag-purple">Autopilot</span></div>
+      <div class="card-hd"><h3>⚡ Agentic Engine 控制台</h3><span class="tag tag-purple">Autopilot</span></div>
       <div class="card-bd" id="agentControlPanel"></div>
     </div>
     <div class="card">
-      <div class="card-hd"><h3>🔔 竞品变更预警</h3><span class="tag tag-red" id="agentAlertCount">0</span></div>
+      <div class="card-hd"><h3>🔔 竞品变更预警</h3><span class="tag tag-red" id="agentAlertCount">0条</span></div>
       <div class="card-bd" id="agentAlertPanel"></div>
     </div>
     <div class="card-row">
@@ -296,236 +232,8 @@
   </div>
 </div>
 
-<!-- 内嵌数据脚本，避免 Vercel 静态文件 404 问题 -->
-<script>
-window.DATA = {
-  meta: {
-    lastUpdated: "2026-04-17",
-    source: "外网实时采集（App Store Lookup API/TapTap/好游快爆/豌豆荚/233乐园/各大应用商店/官方公告等公开渠道）",
-    refreshCycle: "双周更新",
-    nextRefresh: "2026-05-11",
-    dataValidation: "已与人工采集数据交叉比对验证（2026-04-10 10:38）——App Store评分、TapTap评分、版本号、包体大小均经多渠道交叉验证"
-  },
-
-  packageSummary: [
-    {"product":"和平精英","version":"v1.36","name":"丝路贺岁","platform":"iOS","appStore":"3.69G","autoUpdate":"10815M","totalDL":"14.51G","sysUsage":"18.71G","prevSize":"11.59GB","afterUpdate":"30.3GB"},
-    {"product":"和平精英","version":"v1.36","name":"丝路贺岁","platform":"Android","appStore":"3.94G","autoUpdate":"10073M","totalDL":"13.59G","sysUsage":"-","prevSize":"11GB","afterUpdate":"15.7GB"},
-    {"product":"三角洲行动","version":"1.201.37110","name":"蝶变时刻","platform":"iOS","appStore":"3.51G","autoUpdate":"4389.2M","totalDL":"7.8G","sysUsage":"9.64G","prevSize":"20.38GB","afterUpdate":"30.02GB"},
-    {"product":"三角洲行动","version":"1.201.37110","name":"蝶变时刻","platform":"Android","appStore":"1.57G","autoUpdate":"6150.6M","totalDL":"7.54G","sysUsage":"8.86G","prevSize":"21.76GB","afterUpdate":"30.62GB"},
-    {"product":"三角洲行动","version":"1.201.37110","name":"蝶变时刻","platform":"PC","appStore":"473M","autoUpdate":"-","totalDL":"86.62G","sysUsage":"-","prevSize":"-","afterUpdate":"-"},
-    {"product":"王者荣耀","version":"v11.3","name":"S43 陌上相逢","platform":"iOS","appStore":"3.62G","autoUpdate":"10868M","totalDL":"14.58G","sysUsage":"-","prevSize":"-","afterUpdate":"-"},
-    {"product":"王者荣耀","version":"v11.3","name":"S43 陌上相逢","platform":"Android","appStore":"3.71G","autoUpdate":"11048M","totalDL":"15.22G","sysUsage":"-","prevSize":"-","afterUpdate":"-"},
-    {"product":"无畏契约","version":"-","name":"破棘新生","platform":"Android","appStore":"3.35G","autoUpdate":"-","totalDL":"-","sysUsage":"-","prevSize":"-","afterUpdate":"-"},
-    {"product":"暗区突围","version":"v1.0.165","name":"S16/17 宿命之战/迷雾","platform":"iOS","appStore":"3.85G","autoUpdate":"10365M","totalDL":"14.17G","sysUsage":"-","prevSize":"-","afterUpdate":"-"},
-    {"product":"暗区突围","version":"v1.0.165","name":"S16/17 宿命之战/迷雾","platform":"Android","appStore":"2.71G","autoUpdate":"7162M","totalDL":"9.9G","sysUsage":"-","prevSize":"-","afterUpdate":"-"},
-    {"product":"逆战：未来","version":"v1.0.30","name":"S1 鬼吹灯赛季","platform":"iOS","appStore":"2.80G","autoUpdate":"-","totalDL":"-","sysUsage":"-","prevSize":"-","afterUpdate":"-"},
-    {"product":"逆战：未来","version":"v1.0.30","name":"S1 鬼吹灯赛季","platform":"Android","appStore":"2.51G","autoUpdate":"-","totalDL":"-","sysUsage":"-","prevSize":"-","afterUpdate":"-"}
-  ],
-
-  mobileChart: {
-    labels: ["和平精英","三角洲行动","王者荣耀","暗区突围","逆战：未来","PUBGM","CODM"],
-    iOS: {
-      appStore:     [3.69, 3.51, 3.62, 3.85, 2.80, 3.72, 3.55],
-      totalDownload:[14.51, 7.80, 14.58, 14.17, 0, 0, 0],
-      systemUsage:  [18.71, 9.64, 0, 0, 0, 0, 0],
-      afterUpdate:  [30.30, 30.02, 0, 0, 0, 0, 0]
-    },
-    Android: {
-      appStore:     [3.94, 1.57, 3.71, 2.71, 2.51, 1.24, 2.08],
-      totalDownload:[13.59, 7.54, 15.22, 9.90, 0, 0, 0],
-      systemUsage:  [0, 8.86, 0, 0, 0, 0, 0],
-      afterUpdate:  [15.70, 30.62, 0, 0, 0, 0, 0]
-    }
-  },
-
-  pcChart: {
-    labels: ["三角洲行动","暗区突围(PC)","无畏契约","逆战(PC)"],
-    size: [86.62, 76.9, 28.0, 28.5]
-  },
-
-  versionHistory: {
-    "和平精英": [
-      {ver:"1.36.11",name:"丝路贺岁-七周年电玩嘉年华",date:"2026-04"},
-      {ver:"1.36.10",name:"SS38赛季-穿透信号",date:"2026-01"},
-      {ver:"1.35.12",name:"破刃行动",date:"2025-12"},
-      {ver:"1.35.10",name:"空岛集结",date:"2025-09"}
-    ],
-    "三角洲行动": [
-      {ver:"1.201.37110",name:"蝶变时刻-S9回声赛季",date:"2026-04"},
-      {ver:"1.201.37108",name:"阿萨拉",date:"2025-11"},
-      {ver:"1.201.37105",name:"烈火冲天",date:"2025-08"},
-      {ver:"1.201.37103",name:"破壁",date:"2025-05"},
-      {ver:"1.201.37101",name:"黑夜之子",date:"2025-02"},
-      {ver:"1.201.37100",name:"焰火",date:"2024-11"},
-      {ver:"1.201.3799",name:"聚变",date:"2024-08"},
-      {ver:"1.201.3798",name:"游戏上线",date:"2024-08"}
-    ],
-    "王者荣耀": [
-      {ver:"11.3.1.1",name:"S43 陌上相逢",date:"2026-04"},
-      {ver:"11.2.1.1",name:"S42 神佑建木",date:"2026-01"},
-      {ver:"11.1.1.6",name:"S41 天元",date:"2025-10"},
-      {ver:"10.4.1.6",name:"S40 命若星火",date:"2025-07"},
-      {ver:"10.3.1.1",name:"S39 妙手空空",date:"2025-04"},
-      {ver:"10.2.1.6",name:"S38 穿透信号",date:"2025-01"},
-      {ver:"10.1.1.6",name:"S37 暗影狂舞",date:"2024-10"},
-      {ver:"9.4.1.6",name:"S36 元流之子",date:"2024-07"},
-      {ver:"9.3.1.6",name:"S35 命归缘起",date:"2024-04"}
-    ],
-    "暗区突围": [
-      {ver:"1.0.165",name:"S17 迷雾",date:"2026-04"},
-      {ver:"1.0.165",name:"S16 宿命之战",date:"2026-01"},
-      {ver:"1.0.163",name:"S15 无际脉冲",date:"2025-10"},
-      {ver:"1.0.162",name:"S14 使徒归来",date:"2025-07"},
-      {ver:"1.0.159",name:"S13 三周年",date:"2025-04"},
-      {ver:"1.0.158",name:"S12 无处可藏",date:"2025-01"},
-      {ver:"1.0.157",name:"S11 极境风雪",date:"2024-10"}
-    ],
-    "无畏契约": [
-      {ver:"v11.10",name:"V26赛季 时候正式",date:"2026-01"},
-      {ver:"v11.04",name:"2025赛季第六期",date:"2025-11"},
-      {ver:"v11.03",name:"V25赛季第五期",date:"2025-09"},
-      {ver:"v11.00",name:"V25赛季第四期",date:"2025-07"},
-      {ver:"v10.08",name:"V25赛季第三期",date:"2025-05"},
-      {ver:"v10.04",name:"V25赛季第二期",date:"2025-03"},
-      {ver:"v10.00",name:"V25赛季第一期",date:"2025-01"}
-    ],
-    "逆战：未来": [
-      {ver:"1.0.30",name:"S1 鬼吹灯赛季",date:"2026-02"},
-      {ver:"1.0.20",name:"S0 钢铁起源",date:"2026-01"}
-    ],
-    "火影忍者": [
-      {ver:"1.75.66",name:"宇智波带土[十尾人柱力]",date:"2026-03"},
-      {ver:"1.74.65",name:"巳月[仙人模式]",date:"2026-02"},
-      {ver:"1.73.64",name:"波风水门[九喇嘛连结]",date:"2025-12"},
-      {ver:"1.72.62",name:"桃地再不斩[秽土转生]",date:"2025-10"},
-      {ver:"1.71.71",name:"自来也[传说中的三忍]",date:"2025-08"}
-    ]
-  },
-
-  latestVersions: [
-    {product:"和平精英",ver:"v1.36.11",name:"丝路贺岁七周年·电玩嘉年华",date:"2026-04",color:"#faad14",
-      tags:["7周年「电玩嘉年华」4月14日上线","体验服v1.36.11招募中（截止4月20日）","App Store评分4.33（1525万条）","TapTap 5.5分","iOS包体3.69GB"],
-      verified:true},
-    {product:"王者荣耀",ver:"11.3.1.1",name:"S43 陌上相逢",date:"2026-04",color:"#ff7d00",
-      tags:["S43赛季4月1日正式上线","新英雄元流之子·刺客（登录即送）","新召唤师技能汇流为零","11位英雄平衡调整","包体暴增681MB→3.62GB"],
-      verified:true},
-    {product:"无畏契约",ver:"破棘新生",name:"破棘新生·新英雄维佐",date:"2026-04",color:"#f53f3f",
-      tags:["「破棘新生」版本4月上线","新哨卫英雄维佐","6V6热身团竞模式","爆能大乱斗4月8日上线","TapTap 7.8分"],
-      verified:true},
-    {product:"逆战：未来",ver:"1.0.30",name:"S1 鬼吹灯赛季/S2优化方案公布",date:"2026-03",color:"#722ed1",
-      tags:["S2赛季优化方案公布","聚焦反作弊改进","跨端体验优化","S1持续运营中"],
-      verified:true},
-    {product:"火影忍者",ver:"1.75.66.8",name:"宇智波带土[十尾人柱力]/3月大版本",date:"2026-03",color:"#ec4899",
-      tags:["3月大版本更新","忍战我爱罗调整","木叶创立斑改版","秽土解斑","六尾鸣人"],
-      verified:true},
-    {product:"三角洲行动",ver:"1.201.37110",name:"蝶变时刻(S8)·S9回声赛季预热",date:"2026-04",color:"#165dff",
-      tags:["国服DAU突破5000万（腾讯财报实锤）","S9回声赛季4月16日上线","新干员（侦察兵+重型狙M82）","TapTap 6.2分","App Store评分4.63"],
-      verified:true},
-    {product:"CODM",ver:"1.0.54",name:"S2 Lunar Charge",date:"2026-03",color:"#06b6d4",
-      tags:["DMZ Recon更新","新神话武器","春节/情人节活动"],
-      verified:false},
-    {product:"暗区突围",ver:"1.0.165",name:"S16 宿命之战/S17 迷雾",date:"2026-04",color:"#00b42a",
-      tags:["S17赛季4月上线","山谷新秩序扩充7%","SCAR-HAMR新武器","TapTap评分6.8（27287人评价）"],
-      verified:true},
-    {product:"PUBGM",ver:"4.2.0",name:"Primewood Genesis/4.3预告",date:"2026-03",color:"#F97316",
-      tags:["4.3版本预告中","Erangel原始创世纪改版","Android安装包约1.22-1.32GB"],
-      verified:true}
-  ],
-
-  testProcess: [
-    {product:"和平精英",color:"#faad14",rounds:[
-      {label:"v1.36体验服招募中",type:"green",info:"2026年4月招募中（截止4月20日）| 安卓+iOS双端 | 条件:等级30/铂金5以上"},
-      {label:"申请条件",type:"blue",info:"等级30 | 历史最高段位≥铂金5 | 注册>30天 | 当赛季经典≥20局"},
-      {label:"下次招募",type:"red",info:"下次体验服开服时间待定 | 关注和平营地App获取最新公告"}
-    ]},
-    {product:"王者荣耀",color:"#ff7d00",rounds:[
-      {label:"S43赛季体验服",type:"orange",info:"2026年2月24日体验服更新 | 嫦娥/墨子/元法三位法师机制级大改"},
-      {label:"体验服常态化招募",type:"blue",info:"实时申请: pvp.qq.com/cp/a20161115tyf/ | 等级30/信誉100/注册>2年"}
-    ]},
-    {product:"三角洲行动",color:"#165dff",rounds:[
-      {label:"蝶变时刻-体验服",type:"green",info:"2026年4月 | 招募渠道: 先游平台+官网保密跑测问卷"},
-      {label:"阿萨拉-保密一测",type:"red",info:"2025年10月17~24日招募 | 10月18~11月2日测试 | 先游独立招募"},
-      {label:"阿萨拉-万人二测",type:"green",info:"2025年10月20~29日招募 | 11月3~12日测试 | 多平台招募"}
-    ]},
-    {product:"无畏契约",color:"#f53f3f",rounds:[
-      {label:"V26赛季体验服",type:"green",info:"2026年4月 | 爆能大乱斗/新武器追踪/英雄强度调整/回归微风岛屿"},
-      {label:"测试说明",type:"blue",info:"删档不计费测试 | 新地图/武器系统/角色技能抢先体验 | 测试结束后清除进度"}
-    ]},
-    {product:"逆战：未来",color:"#722ed1",rounds:[
-      {label:"S2赛季优化方案公布",type:"orange",info:"2026年4月公布S2优化方案 | 聚焦反作弊改进 | 跨端体验优化"},
-      {label:"全平台公测",type:"green",info:"2026年1月13日全平台公测 | 含移动端与PC双版本 | S1鬼吹灯赛季持续运营"}
-    ]},
-    {product:"暗区突围",color:"#00b42a",rounds:[
-      {label:"S16宿命之战持续中",type:"green",info:"2026年4月更新至今 | 全新枪械配件/重建山谷/全新玩法模式 | TapTap 6.8分"},
-      {label:"体验服申请",type:"blue",info:"官网申请: arenabreakout.com | 填写邮箱+推荐设备 | 名额有限先到先得"}
-    ]},
-    {product:"PUBGM",color:"#F97316",rounds:[
-      {label:"4.3版本预告",type:"orange",info:"2026年4月 | 4.3版本开发中 | Android安装包4.2.0版约1.22-1.32GB"}
-    ]}
-  ],
-
-  updateFlows: [
-    {product:"三角洲行动(移动)",steps:["基础更新包：可进入对局游玩，仅限基础地图（大战场：烬区、搜打撤：大坝）","游戏内二次下载：下载资源后，解锁其他地图及美术、商业化与道具资源"]},
-    {product:"三角洲行动(PC)",steps:["下载器包体：下载启动器","启动器包体：可从Wegame界面进入游戏启动界面","游戏本体：仅包含基础大战场/搜打撤地图（如大坝、烬区）","资源包下载：可选下载，下载后可游玩全量地图（含潮汐监狱、断轨等）"]},
-    {product:"逆战：未来(移动)",steps:["商店下载基础包体","进入游戏Loading页自动更新，下载完成即可游玩全部模式","第二部分需自行下载，为新赛季枪皮资源"]},
-    {product:"王者荣耀",steps:["应用商店更新基础包","进入游戏自动下载热更新包","可选下载额外资源：局内体验、皮肤展示、稷下学院、10v10玩法"]},
-    {product:"暗区突围(PC)",steps:["搜索游戏进入下载","WeGame客户端直接点击下载更新"]}
-  ],
-
-  resourceBreakdown: {
-    "三角洲行动 iOS": {"地图资源扩展包":9.50,"干员资源扩展包":0.04,"商业化外观扩展包":5.90,"场景资源扩展包":0.55,"视频资源扩展包":0.21,"音频资源扩展包":0.28,"载具资源扩展包":1.70,"道具资源扩展包":0.001},
-    "三角洲行动 Android": {"地图资源扩展包":7.82,"干员资源扩展包":0.03,"商业化外观扩展包":4.63,"场景资源扩展包":0.42,"视频资源扩展包":0.18,"音频资源扩展包":0.27,"载具资源扩展包":1.38,"道具资源扩展包":0.001},
-    "王者荣耀-iOS": {"局内体验资源":1.07,"基础系统资源":0.49,"活动展示资源":0.24,"拓展系统资源":1.23,"稷下学院资源":1.43,"体验拓展资源":0.86,"皮肤展示资源":4.86,"玩法拓展资源":1.64,"10v10玩法资源":0.16},
-    "王者荣耀-Android": {"局内体验资源":0.83,"基础系统资源":0.38,"活动展示资源":0.19,"拓展系统资源":0.96,"稷下学院资源":1.12,"体验拓展资源":0.67,"皮肤展示资源":3.81,"玩法拓展资源":1.28,"10v10玩法资源":0.13},
-    "暗区突围-iOS": {"通用资源包":0.15,"地图山谷":0.58,"地图北山":0.41,"地图前线要塞":0.30,"地图电视台":0.24,"地图庭院":0.03,"高清资源":4.70,"音频":0.78},
-    "暗区突围-Android": {"通用资源包":0.07,"地图山谷":0.39,"地图北山":0.28,"地图前线要塞":0.19,"地图电视台":0.14,"地图庭院":0.02,"高清资源":3.56,"音频":0.87},
-    "逆战：未来 iOS": {"僵尸猎场资源包":2.33,"塔防玩法资源包":2.25,"时空追猎资源包":1.93,"挑战副本资源包":1.43,"机甲战资源包":0.41,"PVP玩法资源包":2.25},
-    "逆战：未来 Android": {"僵尸猎场资源包":1.87,"塔防玩法资源包":1.80,"时空追猎资源包":1.55,"挑战副本资源包":1.14,"机甲战资源包":0.33,"PVP玩法资源包":1.80}
-  },
-
-  pkTestReports: {}
-};
-</script>
-<script src="lib/app.js?v=20260420e"></script>
-<script>
-// 移动端汉堡菜单逻辑
-(function() {
-  const menuBtn = document.getElementById('mobileMenuBtn');
-  const overlay = document.getElementById('mobileOverlay');
-  const sidebar = document.querySelector('.sidebar');
-  
-  function openMenu() {
-    sidebar.classList.add('mobile-open');
-    overlay.classList.add('active');
-    menuBtn.textContent = '☰';
-  }
-  
-  function closeMenu() {
-    sidebar.classList.remove('mobile-open');
-    overlay.classList.remove('active');
-    menuBtn.textContent = '☰';
-  }
-  
-  menuBtn.addEventListener('click', function() {
-    if (sidebar.classList.contains('mobile-open')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
-  
-  overlay.addEventListener('click', closeMenu);
-  
-  // 点击导航项后自动关闭菜单
-  // Vercel deployment trigger 2026-04-17T15:44:00+08:00
-  document.querySelectorAll('.nav-item').forEach(function(item) {
-    item.addEventListener('click', function() {
-      if (window.innerWidth <= 768) {
-        closeMenu();
-      }
-    });
-  });
-})();
-</script>
+<script src="js/data.js?v=20260427fix1"></script>
+<script src="js/app.js?v=20260427fix1"></script>
 </body>
 </html>
+
